@@ -71,20 +71,19 @@ public class BankSimulatorApp {
                             break;
                         case 2:
                             MenuBanco.sacarBanco();
-
                             break;
                         case 3:
-                            System.out.println("Transferindoo");
+                            MenuBanco.transferirBanco();
                             break;
                         case 4:
                             MenuBanco.sairBanco();
                             break;
                         default:
-                            System.out.println("Digite um numero valido");
+                            System.out.println("\nVocê não digitou um número. Por favor, insira um valor numérico válido.\n");
                             break;
                     }
                 } catch (InputMismatchException e) {
-                    System.out.println("\nDIGITE UM NUMERO VALIDO\n");
+                    System.out.println("\nVocê não digitou um número. Por favor, insira um valor numérico válido.\n");
                     scanner.nextLine();
                 }
 
@@ -107,12 +106,13 @@ public class BankSimulatorApp {
 
             } catch (NumberFormatException e) {
                 System.out.println("\nVocê não digitou um número. Por favor, insira um valor numérico válido.\n");
+                scanner.nextLine();
             }
         }
 
         public static void sacarBanco() {
-
-            System.out.println("\nDigite o valor do saque: ");
+            System.out.println("\n=== RETIRAR ===\n");
+            System.out.println("Digite o valor do saque: ");
             String valorString = scanner.nextLine();
 
             try {
@@ -124,7 +124,27 @@ public class BankSimulatorApp {
 
             } catch (NumberFormatException e) {
                 System.out.println("\nVocê não digitou um número. Por favor, insira um valor numérico válido.\n");
+                scanner.nextLine();
+            }
+        }
 
+        public static void transferirBanco() {
+            System.out.println("\n=== TRANSFERIR ===\n");
+            System.out.println("Digite o numero da conta para transferir: ");
+            String numContaStr = scanner.nextLine();
+            System.out.println("Digite o valor para transferir: ");
+            String valorString = scanner.nextLine();
+
+            try {
+                int numConta = Integer.parseInt(numContaStr);
+                double valorTransferencia = Double.parseDouble(valorString);
+
+                operacoes.transfererir(numConta, valorTransferencia);
+                MenuBanco.statusCliente();
+
+            } catch (NumberFormatException e) {
+                System.out.println("\nVocê não digitou um número. Por favor, insira um valor numérico válido.\n");
+                scanner.nextLine();
             }
         }
     }

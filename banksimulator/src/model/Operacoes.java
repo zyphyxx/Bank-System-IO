@@ -53,7 +53,21 @@ public class Operacoes implements OperacoesInter {
     }
 
     @Override
-    public void transfererir() {
+    public void transfererir(int numDaConta, double valor) {
+        double saldo = conta.getSaldo();
+
+       if (valor > saldo){
+           System.out.println("Voce não possui saldo para efetuar a trasnferencia\n");
+           sc.nextLine();
+       } else {
+           conta.setSaldo(saldo - valor);
+
+           System.out.println("Transferencia no valor de: " + valor + " R$.\n" +
+                   "Para o usuario da conta: "+ numDaConta +
+                   "\nEfetuado com sucesso ;D");
+           sc.nextLine();
+
+       }
 
     }
 }
