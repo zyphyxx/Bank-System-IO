@@ -70,7 +70,8 @@ public class BankSimulatorApp {
                             MenuBanco.depositarBanco();
                             break;
                         case 2:
-                            System.out.println("Sacandoo");
+                            MenuBanco.sacarBanco();
+
                             break;
                         case 3:
                             System.out.println("Transferindoo");
@@ -106,6 +107,24 @@ public class BankSimulatorApp {
 
             } catch (NumberFormatException e) {
                 System.out.println("\nVocê não digitou um número. Por favor, insira um valor numérico válido.\n");
+            }
+        }
+
+        public static void sacarBanco() {
+
+            System.out.println("\nDigite o valor do saque: ");
+            String valorString = scanner.nextLine();
+
+            try {
+
+                double valorSaque = Double.parseDouble(valorString);
+
+                operacoes.sacar(valorSaque);
+                MenuBanco.statusCliente();
+
+            } catch (NumberFormatException e) {
+                System.out.println("\nVocê não digitou um número. Por favor, insira um valor numérico válido.\n");
+
             }
         }
     }

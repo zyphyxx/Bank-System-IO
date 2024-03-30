@@ -4,7 +4,7 @@ public interface OperacoesInter {
 
    double depositar(double valor);
 
-   void sacar ();
+   double sacar (double valor);
 
    void transfererir ();
 }
