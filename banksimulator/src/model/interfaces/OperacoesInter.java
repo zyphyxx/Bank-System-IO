@@ -6,5 +6,7 @@ public interface OperacoesInter {
 
    double sacar (double valor);
 
-   void transfererir (int numDaConta, double valor);
+   void transferir (int numDaConta, double valor);
+
+
 }
