@@ -25,7 +25,7 @@ O Bank Simulator é um aplicativo simulador de banco desenvolvido em Java puro, 
 
 3. **Execute o Aplicativo:**
    ```bash
-   java BankSimulator
+   java BankSimulatorApp
    ```
 
 ## Contribuição
