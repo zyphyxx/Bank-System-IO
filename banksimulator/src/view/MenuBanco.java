@@ -2,35 +2,43 @@ package view;
 
 import entities.Conta;
 import services.OperacoesService;
+import utils.LeitorDadosUsuario;
 
 import java.util.InputMismatchException;
-import java.util.Scanner;
+
 
 public class MenuBanco {
 
-    static Scanner scanner = new Scanner(System.in);
+    private LeitorDadosUsuario leitorDadosUsuario;
+    public MenuBanco (LeitorDadosUsuario leitorDadosUsuario){
+        this.leitorDadosUsuario = leitorDadosUsuario;
+    }
+
     static Conta conta = new Conta();
     static OperacoesService operacoes = new OperacoesService(conta);
 
-    public static void iniciarBanco() {
+
+    public void iniciarBanco() {
         System.out.println(CoresANSI.YELLOW + "=== BEM-VINDO AO BANCO ===" + CoresANSI.RESET + "\n");
 
         System.out.println("Digite seu nome:");
-        conta.setNomeDoTitular(scanner.nextLine());
+        conta.setNomeDoTitular(leitorDadosUsuario.lerString());
 
         System.out.println("Digite o número da sua conta:");
-        conta.setNumeroDaConta(scanner.nextInt());
+        conta.setNumeroDaConta(leitorDadosUsuario.lerInteiro());
 
         statusCliente();
+
+
     }
 
-    public static void sairBanco() {
+    public void sairBanco() {
         System.out.println("\n" +CoresANSI.GREEN + conta.getNomeDoTitular() + ", você está saindo... " +
                 "\nAté a próxima ;D\n"+ CoresANSI.RESET);
         System.exit(0);
     }
 
-    public static void statusCliente() {
+    public void statusCliente() {
         System.out.println("\n" + CoresANSI.CYAN + "=================================" + CoresANSI.RESET);
         System.out.println("Bem-vindo(a): " + CoresANSI.GREEN + conta.getNomeDoTitular() + CoresANSI.RESET);
         System.out.println("Número do conta: " + CoresANSI.PURPLE + conta.getNumeroDaConta() + CoresANSI.RESET);
@@ -38,9 +46,10 @@ public class MenuBanco {
         System.out.println(CoresANSI.CYAN + "=================================" + CoresANSI.RESET + "\n");
 
         menuSelecao();
+
     }
 
-    public static void menuSelecao() {
+    public void menuSelecao() {
         int valor = 0;
 
         do {
@@ -53,8 +62,8 @@ public class MenuBanco {
                 System.out.println("5 - " + CoresANSI.RED + "Sair" + CoresANSI.RESET);
                 System.out.println("Digite sua opção:");
 
-                valor = scanner.nextInt();
-                scanner.nextLine();
+                valor = leitorDadosUsuario.lerInteiro();
+                leitorDadosUsuario.lerString(); // consumir o enter
 
                 switch (valor) {
                     case 1:
@@ -77,19 +86,19 @@ public class MenuBanco {
                 }
             } catch (InputMismatchException e) {
                 System.out.println(CoresANSI.RED + "\nOpção inválida. Por favor, digite um número correspondente à operação desejada." + CoresANSI.RESET + "\n");
-                scanner.nextLine();
+                leitorDadosUsuario.lerString();
             }
 
         } while (valor != 5);
     }
 
-    public static void depositarBanco() {
+    public void depositarBanco() {
 
         System.out.println("\n" + CoresANSI.YELLOW + "=== DEPOSITAR ===" + CoresANSI.RESET);
         System.out.println("Digite o valor a ser depositado:");
 
         try {
-            double valorDeposito = Double.parseDouble(scanner.nextLine());
+            double valorDeposito = Double.parseDouble(leitorDadosUsuario.lerString());
             operacoes.depositar(valorDeposito);
             statusCliente();
         } catch (NumberFormatException e) {
@@ -99,12 +108,12 @@ public class MenuBanco {
 
     }
 
-    public static void sacarBanco() {
+    public void sacarBanco() {
         System.out.println("\n" + CoresANSI.YELLOW + "=== SACAR ===" + CoresANSI.RESET);
         System.out.println("Digite o valor a ser sacado:");
 
         try {
-            double valorSaque = Double.parseDouble(scanner.nextLine());
+            double valorSaque = Double.parseDouble(leitorDadosUsuario.lerString());
             operacoes.sacar(valorSaque);
             statusCliente();
         } catch (NumberFormatException e) {
@@ -112,17 +121,17 @@ public class MenuBanco {
         }
     }
 
-    public static void transferirBanco() {
+    public void transferirBanco() {
         System.out.println("\n" + CoresANSI.YELLOW + "=== TRANSFERIR ===" + CoresANSI.RESET);
 
         try {
             System.out.println("Digite o número da conta de destino:");
-            int numConta = scanner.nextInt();
-            scanner.nextLine();
+            int numConta = leitorDadosUsuario.lerInteiro();
+            leitorDadosUsuario.lerString(); // consumir o enter
 
             System.out.println("Digite o valor a ser transferido:");
-            double valorTransferencia = scanner.nextDouble();
-            scanner.nextLine();
+            double valorTransferencia = leitorDadosUsuario.lerDouble();
+            leitorDadosUsuario.lerString(); // consumir o enter
 
             operacoes.transferir(numConta, valorTransferencia);
 
@@ -132,7 +141,7 @@ public class MenuBanco {
     }
 
 
-    public static void historicoBanco() {
+    public void historicoBanco() {
         operacoes.historico();
     }
 }
