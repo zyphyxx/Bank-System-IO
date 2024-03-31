@@ -25,8 +25,8 @@ public class MenuBanco {
     }
 
     public static void sairBanco() {
-        System.out.println("\n" + conta.getNomeDoTitular() + ", você está saindo... " +
-                "\nAté a próxima ;D\n");
+        System.out.println("\n" +CoresANSI.GREEN + conta.getNomeDoTitular() + ", você está saindo... " +
+                "\nAté a próxima ;D\n"+ CoresANSI.RESET);
         System.exit(0);
     }
 
@@ -49,7 +49,8 @@ public class MenuBanco {
                 System.out.println("1 - " + CoresANSI.CYAN + "Depositar" + CoresANSI.RESET);
                 System.out.println("2 - " + CoresANSI.CYAN + "Sacar" + CoresANSI.RESET);
                 System.out.println("3 - " + CoresANSI.CYAN + "Transferir" + CoresANSI.RESET);
-                System.out.println("4 - " + CoresANSI.RED + "Sair" + CoresANSI.RESET);
+                System.out.println("4 - " + CoresANSI.CYAN + "Historico" + CoresANSI.RESET);
+                System.out.println("5 - " + CoresANSI.RED + "Sair" + CoresANSI.RESET);
                 System.out.println("Digite sua opção:");
 
                 valor = scanner.nextInt();
@@ -66,8 +67,10 @@ public class MenuBanco {
                         transferirBanco();
                         break;
                     case 4:
-                        sairBanco();
+                        historicoBanco();
                         break;
+                    case 5:
+                        sairBanco();
                     default:
                         System.out.println(CoresANSI.RED + "\nOpção inválida. Por favor, escolha uma das opções disponíveis." + CoresANSI.RESET + "\n");
                         break;
@@ -77,7 +80,7 @@ public class MenuBanco {
                 scanner.nextLine();
             }
 
-        } while (valor != 4);
+        } while (valor != 5);
     }
 
     public static void depositarBanco() {
@@ -108,18 +111,25 @@ public class MenuBanco {
 
     public static void transferirBanco() {
         System.out.println("\n" + CoresANSI.YELLOW + "=== TRANSFERIR ===" + CoresANSI.RESET);
-        System.out.println("Digite o número da conta de destino:");
-        String numContaStr = scanner.nextLine();
-
-        System.out.println("Digite o valor a ser transferido:");
 
         try {
-            int numConta = Integer.parseInt(numContaStr);
-            double valorTransferencia = Double.parseDouble(scanner.nextLine());
+            System.out.println("Digite o número da conta de destino:");
+            int numConta = scanner.nextInt();
+            scanner.nextLine();
+
+            System.out.println("Digite o valor a ser transferido:");
+            double valorTransferencia = scanner.nextDouble();
+            scanner.nextLine();
+
             operacoes.transferir(numConta, valorTransferencia);
-            statusCliente();
+
         } catch (NumberFormatException e) {
-            System.out.println(CoresANSI.RED + "\nValor inválido. Por favor, insira um valor numérico válido." + CoresANSI.RESET + "\n");
+            System.out.println(CoresANSI.RED + "\nValor inválido. Por favor, insira um número de conta e um valor numérico válido." + CoresANSI.RESET + "\n");
         }
+    }
+
+
+    public static void historicoBanco() {
+        operacoes.historico();
     }
 }

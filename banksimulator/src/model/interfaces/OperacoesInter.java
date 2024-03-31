@@ -8,5 +8,5 @@ public interface OperacoesInter {
 
    void transferir (int numDaConta, double valor);
 
-
+   void historico ();
 }
