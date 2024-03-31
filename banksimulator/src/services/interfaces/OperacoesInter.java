@@ -1,4 +1,4 @@
-package model.interfaces;
+package services.interfaces;
 
 public interface OperacoesInter {
 

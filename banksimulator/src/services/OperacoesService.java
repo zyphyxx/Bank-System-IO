@@ -1,12 +1,13 @@
-package model;
+package services;
 
-import model.interfaces.OperacoesInter;
+import entities.Conta;
+import services.interfaces.OperacoesInter;
 import view.CoresANSI;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Operacoes implements OperacoesInter {
+public class OperacoesService implements OperacoesInter {
 
     Scanner sc = new Scanner(System.in);
 
@@ -21,12 +22,12 @@ public class Operacoes implements OperacoesInter {
 
     private Conta conta;
 
-    public Operacoes(Conta conta) {
+    public OperacoesService(Conta conta) {
         super();
         this.conta = conta;
     }
 
-    public Operacoes() {
+    public OperacoesService() {
         super();
     }
 
