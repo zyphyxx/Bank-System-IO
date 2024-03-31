@@ -1,6 +1,8 @@
-package model;
+package entities;
 
-public class Conta extends Operacoes {
+import services.OperacoesService;
+
+public class Conta extends OperacoesService {
 
     private String nomeDoTitular;
     private int numeroDaConta;

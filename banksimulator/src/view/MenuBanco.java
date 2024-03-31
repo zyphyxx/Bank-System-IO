@@ -1,7 +1,7 @@
 package view;
 
-import model.Conta;
-import model.Operacoes;
+import entities.Conta;
+import services.OperacoesService;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -10,7 +10,7 @@ public class MenuBanco {
 
     static Scanner scanner = new Scanner(System.in);
     static Conta conta = new Conta();
-    static Operacoes operacoes = new Operacoes(conta);
+    static OperacoesService operacoes = new OperacoesService(conta);
 
     public static void iniciarBanco() {
         System.out.println(CoresANSI.YELLOW + "=== BEM-VINDO AO BANCO ===" + CoresANSI.RESET + "\n");
@@ -84,6 +84,7 @@ public class MenuBanco {
     }
 
     public static void depositarBanco() {
+
         System.out.println("\n" + CoresANSI.YELLOW + "=== DEPOSITAR ===" + CoresANSI.RESET);
         System.out.println("Digite o valor a ser depositado:");
 
@@ -94,6 +95,8 @@ public class MenuBanco {
         } catch (NumberFormatException e) {
             System.out.println(CoresANSI.RED + "\nValor inválido. Por favor, insira um valor numérico válido." + CoresANSI.RESET + "\n");
         }
+
+
     }
 
     public static void sacarBanco() {
