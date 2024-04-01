@@ -1,12 +1,14 @@
 package services.interfaces;
 
+import java.math.BigDecimal;
+
 public interface OperacoesInter {
 
-   double depositar(double valor);
+   BigDecimal depositar(BigDecimal valorDeposito);
 
-   double sacar (double valor);
+   BigDecimal sacar (BigDecimal valor);
 
-   void transferir (int numDaConta, double valor);
+   void transferir (int numDaConta, BigDecimal valor);
 
    void historico ();
 }

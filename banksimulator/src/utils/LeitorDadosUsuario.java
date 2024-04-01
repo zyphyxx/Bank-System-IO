@@ -6,6 +6,11 @@ public class LeitorDadosUsuario {
 
     private final Scanner scanner;
 
+    public static LeitorDadosUsuario iniciarLeitor (){
+        LeitorDadosUsuario leitorDadosUsuario = new LeitorDadosUsuario();
+        return leitorDadosUsuario;
+    }
+
    public LeitorDadosUsuario () {
    this.scanner = new Scanner(System.in);
    }
