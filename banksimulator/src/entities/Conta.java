@@ -2,17 +2,19 @@ package entities;
 
 import services.OperacoesService;
 
+import java.math.BigDecimal;
+
 public class Conta extends OperacoesService {
 
     private String nomeDoTitular;
     private int numeroDaConta;
-    private double saldo;
+    private BigDecimal saldo = BigDecimal.ZERO;
 
-    public Conta (String nomeDoTitular, int numeroDaConta, double saldo) {
+    public Conta (String nomeDoTitular, int numeroDaConta, BigDecimal saldo) {
         super();
        this.nomeDoTitular = nomeDoTitular;
        this.numeroDaConta = numeroDaConta;
-       this.saldo = saldo;
+       this.saldo = BigDecimal.ZERO;
     }
     public Conta(){
         super();
@@ -34,11 +36,11 @@ public class Conta extends OperacoesService {
         this.numeroDaConta = numeroDaConta;
     }
 
-    public double getSaldo() {
+    public BigDecimal getSaldo() {
         return saldo;
     }
 
-    public void setSaldo(double saldo) {
+    public void setSaldo(BigDecimal saldo) {
         this.saldo = saldo;
     }
 }

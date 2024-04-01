@@ -2,19 +2,22 @@ package services;
 
 import entities.Conta;
 import services.interfaces.OperacoesInter;
+import utils.LeitorDadosUsuario;
 import view.CoresANSI;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class OperacoesService implements OperacoesInter {
 
-    Scanner sc = new Scanner(System.in);
+
+    LeitorDadosUsuario leitorDadosUsuario = LeitorDadosUsuario.iniciarLeitor();
 
     // LISTA PARA HISTORICO DE TRANSFERENCIA
-    ArrayList<Double> historicoDeposito = new ArrayList<>();
-    ArrayList<Double> historicoSaques = new ArrayList<>();
-    ArrayList<Double> historicoTransferencia = new ArrayList<>();
+    ArrayList<BigDecimal> historicoDeposito = new ArrayList<>();
+    ArrayList<BigDecimal> historicoSaques = new ArrayList<>();
+    ArrayList<BigDecimal> historicoTransferencia = new ArrayList<>();
 
     ArrayList<String> historicoSaqueRecusado = new ArrayList<>();
     ArrayList<String> historicoTransferenciaRecusado = new ArrayList<>();
@@ -32,53 +35,69 @@ public class OperacoesService implements OperacoesInter {
     }
 
     @Override
-    public double depositar(double valor) {
-        double saldo = conta.getSaldo();
-        conta.setSaldo(saldo + valor);
+    public BigDecimal depositar(BigDecimal valorDeposito) {
 
-        System.out.println(CoresANSI.GREEN + "Depósito de " + valor + " R$ realizado com sucesso." + CoresANSI.RESET);
-        System.out.println("Novo saldo: " + conta.getSaldo() + " R$");
-        sc.nextLine();
+        if (valorDeposito.compareTo(BigDecimal.ZERO) < 0){
+            System.out.println("O valor é negativo.");
 
-        historicoDeposito.add(valor);
-        return saldo;
-    }
-
-    @Override
-    public double sacar(double valor) {
-        double saldo = conta.getSaldo();
-
-        if (valor > saldo) {
-            System.out.println(CoresANSI.RED + "Saldo insuficiente para sacar " + valor + " R$. Operação cancelada." + CoresANSI.RESET);
-            historicoSaqueRecusado.add(" R$ -- RECUSADO FALTA DE SALDO");
-            sc.nextLine();
-        } else {
-            conta.setSaldo(saldo - valor);
-            System.out.println(CoresANSI.GREEN + "Saque de " + valor + " R$ realizado com sucesso." + CoresANSI.RESET);
-            System.out.println("Novo saldo: " + conta.getSaldo() + " R$");
-            historicoSaqueRecusado.add(" R$ -- APROVADO");
-            sc.nextLine();
+        }
+        if (valorDeposito == null) {
+            throw new IllegalArgumentException("Valor do depósito não pode ser nulo.");
+        }
+        try {
+            conta.setSaldo(conta.getSaldo().add(valorDeposito));
+            historicoDeposito.add(valorDeposito);
+        } catch (Exception e) {
+            System.out.println("Erro ao depositar valor: " + valorDeposito);
+            throw e;
         }
 
-        historicoSaques.add(valor);
-        return saldo;
+        return conta.getSaldo();
     }
 
     @Override
-    public void transferir(int numDaConta, double valor) {
-        double saldo = conta.getSaldo();
+    public BigDecimal sacar(BigDecimal valor) {
+        BigDecimal saldo = conta.getSaldo();
 
-        if (valor > saldo) {
+        if (saldo.compareTo(valor) < 0) {
+            System.out.println(CoresANSI.RED + "Saldo insuficiente para sacar " + valor + " R$. Operação cancelada." + CoresANSI.RESET);
+            historicoSaqueRecusado.add(" R$ -- RECUSADO FALTA DE SALDO");
+            leitorDadosUsuario.lerString();
+        }
+        if (valor == null) {
+            throw new IllegalArgumentException("Valor do depósito não pode ser nulo.");
+        }
+
+            try {
+                conta.setSaldo(saldo.subtract(valor));
+                System.out.println(CoresANSI.GREEN + "Saque de " + valor + " R$ realizado com sucesso." + CoresANSI.RESET);
+                System.out.println("Novo saldo: " + conta.getSaldo() + " R$");
+                historicoSaqueRecusado.add(" R$ -- APROVADO");
+                historicoSaques.add(valor);
+                leitorDadosUsuario.lerString();
+            } catch (Exception e) {
+                System.out.println("Erro para sacar");
+                throw e;
+            }
+
+            return saldo;
+    }
+
+    @Override
+    public void transferir(int numDaConta, BigDecimal valor) {
+        BigDecimal saldo = conta.getSaldo();
+
+        if ( saldo.compareTo(valor) < 0 ) {
             System.out.println(CoresANSI.RED + "Saldo insuficiente para transferir " + valor + " R$ para a conta " + numDaConta + "." + CoresANSI.RESET);
             historicoTransferenciaRecusado.add(" R$ -- RECUSADO");
-            sc.nextLine();
+            leitorDadosUsuario.lerString();
         } else {
-            conta.setSaldo(saldo - valor);
+            conta.setSaldo(saldo.subtract(valor));
             System.out.println(CoresANSI.GREEN + "Transferência de " + valor + " R$ para a conta " + numDaConta + " realizada com sucesso." + CoresANSI.RESET);
             System.out.println("Novo saldo: " + conta.getSaldo() + " R$");
             historicoTransferencia.add(valor);
             historicoTransferenciaRecusado.add(" R$ -- APROVADO");
-            sc.nextLine();
+            leitorDadosUsuario.lerString();
         }
     }
 
@@ -107,7 +126,7 @@ public class OperacoesService implements OperacoesInter {
 
         }
 
-        sc.nextLine();
+        leitorDadosUsuario.lerString();
 
     }
 }

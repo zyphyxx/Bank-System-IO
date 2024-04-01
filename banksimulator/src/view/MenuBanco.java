@@ -4,19 +4,24 @@ import entities.Conta;
 import services.OperacoesService;
 import utils.LeitorDadosUsuario;
 
+import java.math.BigDecimal;
 import java.util.InputMismatchException;
 
 
 public class MenuBanco {
 
-    private LeitorDadosUsuario leitorDadosUsuario;
-    public MenuBanco (LeitorDadosUsuario leitorDadosUsuario){
-        this.leitorDadosUsuario = leitorDadosUsuario;
-    }
+    public LeitorDadosUsuario leitorDadosUsuario = new LeitorDadosUsuario();
+
 
     static Conta conta = new Conta();
     static OperacoesService operacoes = new OperacoesService(conta);
 
+    // método factory
+    public static MenuBanco iniciar (){
+        MenuBanco menuBanco = new MenuBanco();
+        menuBanco.iniciarBanco();
+        return menuBanco;
+    }
 
     public void iniciarBanco() {
         System.out.println(CoresANSI.YELLOW + "=== BEM-VINDO AO BANCO ===" + CoresANSI.RESET + "\n");
@@ -67,10 +72,10 @@ public class MenuBanco {
 
                 switch (valor) {
                     case 1:
-                        depositarBanco();
+                        operacaoDepositar();
                         break;
                     case 2:
-                        sacarBanco();
+                        operacaoSacar();
                         break;
                     case 3:
                         transferirBanco();
@@ -92,15 +97,21 @@ public class MenuBanco {
         } while (valor != 5);
     }
 
-    public void depositarBanco() {
-
-        System.out.println("\n" + CoresANSI.YELLOW + "=== DEPOSITAR ===" + CoresANSI.RESET);
-        System.out.println("Digite o valor a ser depositado:");
+    public void operacaoDepositar() {
 
         try {
-            double valorDeposito = Double.parseDouble(leitorDadosUsuario.lerString());
+            System.out.println("\n" + CoresANSI.YELLOW + "=== DEPOSITAR ===" + CoresANSI.RESET);
+            System.out.println("Digite o valor a ser depositado:");
+
+            BigDecimal valorDeposito = new BigDecimal(leitorDadosUsuario.lerString());
             operacoes.depositar(valorDeposito);
+
+            System.out.println(CoresANSI.GREEN + "Depósito de " + valorDeposito + " R$ realizado com sucesso." + CoresANSI.RESET);
+            System.out.println("Novo saldo: " + conta.getSaldo() + " R$");
+            leitorDadosUsuario.lerString();
+
             statusCliente();
+
         } catch (NumberFormatException e) {
             System.out.println(CoresANSI.RED + "\nValor inválido. Por favor, insira um valor numérico válido." + CoresANSI.RESET + "\n");
         }
@@ -108,12 +119,12 @@ public class MenuBanco {
 
     }
 
-    public void sacarBanco() {
+    public void operacaoSacar() {
         System.out.println("\n" + CoresANSI.YELLOW + "=== SACAR ===" + CoresANSI.RESET);
         System.out.println("Digite o valor a ser sacado:");
 
         try {
-            double valorSaque = Double.parseDouble(leitorDadosUsuario.lerString());
+            BigDecimal valorSaque = new BigDecimal(leitorDadosUsuario.lerString());
             operacoes.sacar(valorSaque);
             statusCliente();
         } catch (NumberFormatException e) {
@@ -130,7 +141,7 @@ public class MenuBanco {
             leitorDadosUsuario.lerString(); // consumir o enter
 
             System.out.println("Digite o valor a ser transferido:");
-            double valorTransferencia = leitorDadosUsuario.lerDouble();
+            BigDecimal valorTransferencia = new BigDecimal(leitorDadosUsuario.lerString());
             leitorDadosUsuario.lerString(); // consumir o enter
 
             operacoes.transferir(numConta, valorTransferencia);
