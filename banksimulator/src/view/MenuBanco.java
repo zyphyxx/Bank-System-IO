@@ -3,6 +3,7 @@ package view;
 import entities.Conta;
 import services.OperacoesService;
 import utils.LeitorDadosUsuario;
+import utils.Mensagem;
 
 import java.math.BigDecimal;
 import java.util.InputMismatchException;
@@ -13,34 +14,38 @@ public class MenuBanco {
     public LeitorDadosUsuario leitorDadosUsuario = new LeitorDadosUsuario();
 
 
-    static Conta conta = new Conta();
+    public static Conta conta = new Conta();
     static OperacoesService operacoes = new OperacoesService(conta);
 
+    public Mensagem mensagem = Mensagem.iniciarMSG(); // iniciando a mensagem
+
     // método factory
-    public static MenuBanco iniciar (){
+    public static MenuBanco iniciar() {
         MenuBanco menuBanco = new MenuBanco();
         menuBanco.iniciarBanco();
         return menuBanco;
     }
 
     public void iniciarBanco() {
-        System.out.println(CoresANSI.YELLOW + "=== BEM-VINDO AO BANCO ===" + CoresANSI.RESET + "\n");
 
-        System.out.println("Digite seu nome:");
-        conta.setNomeDoTitular(leitorDadosUsuario.lerString());
+        mensagem.bemVindo();
 
-        System.out.println("Digite o número da sua conta:");
-        conta.setNumeroDaConta(leitorDadosUsuario.lerInteiro());
+        try {
 
-        statusCliente();
+            leitorDadosUsuario.lerUsuario();
+            leitorDadosUsuario.lerConta();
+
+            statusCliente();
+
+        } catch (NumberFormatException e) {
+            mensagem.entradaInvalidaNum();
+        }
 
 
     }
 
     public void sairBanco() {
-        System.out.println("\n" +CoresANSI.GREEN + conta.getNomeDoTitular() + ", você está saindo... " +
-                "\nAté a próxima ;D\n"+ CoresANSI.RESET);
-        System.exit(0);
+        mensagem.sair();
     }
 
     public void statusCliente() {
@@ -99,6 +104,8 @@ public class MenuBanco {
 
     public void operacaoDepositar() {
 
+        // A OPERAÇÃO DEPOSITAR ESTA ACEITANDO NUMEROS NEGATIVOS
+        // CORRIGIR ESSE ERRO
         try {
             System.out.println("\n" + CoresANSI.YELLOW + "=== DEPOSITAR ===" + CoresANSI.RESET);
             System.out.println("Digite o valor a ser depositado:");
@@ -120,6 +127,11 @@ public class MenuBanco {
     }
 
     public void operacaoSacar() {
+
+        // A OPERAÇÃO SACAR ESTA SACANDO MAIS DOQUE A QUANTIDADE DE SALDO
+        // ESTA ACEITANDO OPERADORES PRIMITIVOS (+ E - )
+        // CORRIGIR ESSE ERRO
+
         System.out.println("\n" + CoresANSI.YELLOW + "=== SACAR ===" + CoresANSI.RESET);
         System.out.println("Digite o valor a ser sacado:");
 
@@ -134,6 +146,9 @@ public class MenuBanco {
 
     public void transferirBanco() {
         System.out.println("\n" + CoresANSI.YELLOW + "=== TRANSFERIR ===" + CoresANSI.RESET);
+
+        // ESTA ACEITANDO OPERADORES PRIMITIVOS (+ E - ) ADICINANDO SALDO QUE NAO EXISTE
+        // CORRIGIR ESSE ERRO
 
         try {
             System.out.println("Digite o número da conta de destino:");
