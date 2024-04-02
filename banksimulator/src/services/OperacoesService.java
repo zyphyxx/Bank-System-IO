@@ -2,9 +2,9 @@ package services;
 
 import entities.Conta;
 import services.interfaces.OperacoesInter;
+import utils.Collor;
 import utils.Mensagem;
 import utils.Scanner;
-import utils.Collor;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -38,63 +38,64 @@ public class OperacoesService implements OperacoesInter {
 
 
     @Override
-    public BigDecimal depositar(BigDecimal valorDeposito) {
+    public void depositar(BigDecimal valorDeposito) {
         // VERIFICANDO SE A ENTRADA FOR NULA OU SE FOR NEGATIVO LANÇAR UMA EXCEPTION
         if (valorDeposito == null) {
             System.out.println("Valor do depósito não pode ser nulo.");
-            return conta.getSaldo();
 
         } else if (valorDeposito.compareTo(BigDecimal.ZERO) < 0) {
             System.out.println("\"Número negativo não é permitido.\"");
+        } else {
 
-            return conta.getSaldo();
+            try {
+                // ADICIONA O VALOR NA CONTA
+                conta.setSaldo(conta.getSaldo().add(valorDeposito));
+                // ADICIONA NO HISTORICO
+                historicoDeposito.add(valorDeposito);
+                // MENSAGEM
+                mensagem.depositarStatus(valorDeposito);
+
+            } catch (Exception e) {
+                throw new RuntimeException("Erro ao depositar valor: " + valorDeposito);
+            }
         }
-        // ADICIONA O VALOR NA CONTA
-        try {
-            conta.setSaldo(conta.getSaldo().add(valorDeposito));
-            // MENSAGEM
-            mensagem.depositarStatus(valorDeposito);
-            // ADICIONA NO HISTORICO
-            historicoDeposito.add(valorDeposito);
-        } catch (Exception e) {
-            throw new RuntimeException("Erro ao depositar valor: " + valorDeposito);
-        }
-        return conta.getSaldo();
+
     }
 
     @Override
-    public BigDecimal sacar(BigDecimal valor) {
-        BigDecimal saldo = conta.getSaldo();
-
-        if (saldo.compareTo(valor) < 0) {
-            System.out.println(Collor.RED + "Saldo insuficiente para sacar " + valor + " R$. Operação cancelada." + Collor.RESET);
-            historicoSaqueRecusado.add(" R$ -- RECUSADO FALTA DE SALDO");
-            scanner.string();
-        }
-        if (valor == null) {
-            throw new IllegalArgumentException("Valor do depósito não pode ser nulo.");
-        }
+    public void sacar(BigDecimal valorSaque) {
+        // VERIFICANDO SE A ENTRADA FOR NULA OU SE FOR NEGATIVO E SE O TEM SALDO PARA SAQUE
+        if (valorSaque == null) {
+            System.out.println("Valor do saque não pode ser nulo.");
+        } else if (conta.getSaldo().compareTo(valorSaque) < 0) {
+            historicoSaqueRecusado.add(" - Recusado");
+            System.out.println(Collor.RED + "Saldo insuficiente para sacar " + valorSaque + " R$. Operação cancelada." + Collor.RESET);
+        } else if (valorSaque.compareTo(BigDecimal.ZERO) < 0) {
+            System.out.println("valor nao pode ser negativo");
+        } else {
 
             try {
-                conta.setSaldo(saldo.subtract(valor));
-                System.out.println(Collor.GREEN + "Saque de " + valor + " R$ realizado com sucesso." + Collor.RESET);
+                // FAZ A SUBTRAÇÃO DO SALDO
+                conta.setSaldo(conta.getSaldo().subtract(valorSaque));
+                // ADICIONA NO HISTORICO
+                historicoSaqueRecusado.add(" - Aprovado");
+                // MENSAGEM
+                System.out.println(Collor.GREEN + "Saque de " + valorSaque + " R$ realizado com sucesso." + Collor.RESET);
                 System.out.println("Novo saldo: " + conta.getSaldo() + " R$");
-                historicoSaqueRecusado.add(" R$ -- APROVADO");
-                historicoSaques.add(valor);
+                // LIMPA O BUFFER
                 scanner.string();
-            } catch (Exception e) {
-                System.out.println("Erro para sacar");
-                throw e;
-            }
 
-            return saldo;
+            } catch (Exception e) {
+                throw new RuntimeException("Erro ao efetuar o saque");
+            }
+        }
     }
 
     @Override
     public void transferir(int numDaConta, BigDecimal valor) {
         BigDecimal saldo = conta.getSaldo();
 
-        if ( saldo.compareTo(valor) < 0 ) {
+        if (saldo.compareTo(valor) < 0) {
             System.out.println(Collor.RED + "Saldo insuficiente para transferir " + valor + " R$ para a conta " + numDaConta + "." + Collor.RESET);
             historicoTransferenciaRecusado.add(" R$ -- RECUSADO");
             scanner.string();
@@ -121,7 +122,7 @@ public class OperacoesService implements OperacoesInter {
         System.out.println("\n" + Collor.RED + "Histórico de saques:" + Collor.RESET);
         for (int i = 0; i < (historicoSaques.size() & historicoSaqueRecusado.size()); i++) {
 
-                System.out.println((i + 1) + " - " + historicoSaques.get(i)+ " " + historicoSaqueRecusado.get(i));
+            System.out.println((i + 1) + " - " + historicoSaques.get(i) + " " + historicoSaqueRecusado.get(i));
 
         }
 

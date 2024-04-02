@@ -55,10 +55,9 @@ public class MenuBanco {
 
     public void menuSelecao() {
 
-        int valor = 0;
+        int valor;
 
         do {
-            try {
 
                 mensagem.menu();
 
@@ -81,46 +80,37 @@ public class MenuBanco {
                     case 5:
                         operacaoSair();
                     default:
-                        mensagem.entradaInvalidaNum();
+                        System.out.println("menu");
                         break;
                 }
-            } catch (InputMismatchException e) {
-
-                mensagem.entradaInvalidaNum();
-                scanner.string();
-            }
 
         } while (valor != 5);
 
     }
 
     public void operacaoDepositar() {
-            // MENSAGEM
-            mensagem.depositar();
-            // VARIAVEL PARA DEPOSITO
-            BigDecimal valorDeposito = new BigDecimal(scanner.string());
-            // CHAMA O METODO DEPOSITAR PASSANDO A VARIAVEL DO TIPO BIGDECIMAL
-            operacoes.depositar(valorDeposito);
-            // LIMPAR O BUFFER DO SCANNER
-            scanner.string();
-            // CHAMA O METODO DE STATUS
-            statusCliente();
+        // MENSAGEM
+        mensagem.depositar();
+        // VARIAVEL PARA DEPOSITO
+        BigDecimal valorDeposito = new BigDecimal(scanner.string());
+        // CHAMA O METODO DEPOSITAR PASSANDO A VARIAVEL DO TIPO BIGDECIMAL
+        operacoes.depositar(valorDeposito);
+        // LIMPAR O BUFFER DO SCANNER
+        scanner.string();
+        // CHAMA O METODO DE STATUS
+        statusCliente();
     }
 
     public void operacaoSacar() {
+        // MENSAGEM
+        mensagem.sacar();
+        // VARIAVEL PARA SAQUE
+        BigDecimal valorSaque = new BigDecimal(scanner.string());
+        // CHAMA O METODO SACAR ADICIONANDO O VALOR
+        operacoes.sacar(valorSaque);
+        // CHAMA O METODO DE STATUS
+        statusCliente();
 
-        // A OPERAÇÃO SACAR ESTA SACANDO MAIS DOQUE A QUANTIDADE DE SALDO
-        // ESTA ACEITANDO OPERADORES PRIMITIVOS (+ E - )
-        // CORRIGIR ESSE ERRO
-
-        try {
-            mensagem.sacar();
-            BigDecimal valorSaque = new BigDecimal(scanner.string());
-            operacoes.sacar(valorSaque);
-            statusCliente();
-        } catch (NumberFormatException e) {
-            mensagem.entradaInvalidaNum();
-        }
     }
 
     public void operacaoTransferir() {

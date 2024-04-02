@@ -4,9 +4,9 @@ import java.math.BigDecimal;
 
 public interface OperacoesInter {
 
-   BigDecimal depositar(BigDecimal valorDeposito);
+   void depositar(BigDecimal valorDeposito);
 
-   BigDecimal sacar (BigDecimal valor);
+   void sacar (BigDecimal valor);
 
    void transferir (int numDaConta, BigDecimal valor);
 
