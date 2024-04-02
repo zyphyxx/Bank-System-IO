@@ -9,44 +9,58 @@ import utils.Scanner;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
+import static view.MenuBanco.conta;
+
 public class OperacoesService implements OperacoesInter {
 
-
+    // INSTANCIANDO OS METODOS SCANNER E MENSAGEM
     Scanner scanner = Scanner.iniciarLeitor();
     Mensagem mensagem = Mensagem.iniciarMSG();
-
-
     // LISTA PARA HISTORICO DE TRANSFERENCIA
-    ArrayList<BigDecimal> listaHistorico = new ArrayList<>();
-
-
+    private final ArrayList<BigDecimal> depositoHistorico = new ArrayList<>();
+    private final ArrayList<BigDecimal> saqueHistorico = new ArrayList<>();
+    private final ArrayList<BigDecimal> transfHistorico = new ArrayList<>();
+    // VAR
     private Conta conta;
-
+    // CONSTRUTOR
     public OperacoesService(Conta conta) {
-        super();
         this.conta = conta;
     }
-
     public OperacoesService() {
         super();
     }
 
+    public void nomeUsuario (){
+        // MENSAGEM
+        mensagem.nome();
+        // ENTRADA DO NOME
+        String nomeUsuario = scanner.string();
+        conta.setNomeDoTitular(nomeUsuario);
+    }
+
+    // ARRUMAR O ERRO QUANDO O USUARIO ENTRA COM LETRAS
+    public void numeroConta () {
+        // MENSAGEM
+        mensagem.conta();
+        // ENTRADA DO NUMERO DA CONTA
+        int numeroConta = Integer.parseInt(scanner.string());
+        conta.setNumeroDaConta(numeroConta);
+    }
 
     @Override
     public void depositar(BigDecimal valorDeposito) {
         // VERIFICANDO SE A ENTRADA FOR NULA OU SE FOR NEGATIVO LANÇAR UMA EXCEPTION
         if (valorDeposito == null) {
-            System.out.println("Valor do depósito não pode ser nulo.");
-
+                mensagem.numeroNulo();
         } else if (valorDeposito.compareTo(BigDecimal.ZERO) < 0) {
-            System.out.println("\"Número negativo não é permitido.\"");
+            mensagem.numeroNegativo();
         } else {
 
             try {
                 // ADICIONA O VALOR NA CONTA
                 conta.setSaldo(conta.getSaldo().add(valorDeposito));
                 // ADICIONA NO HISTORICO
-                listaHistorico.add(valorDeposito);
+                depositoHistorico.add(valorDeposito);
                 // MENSAGEM
                 mensagem.depositarStatus(valorDeposito);
 
@@ -61,22 +75,20 @@ public class OperacoesService implements OperacoesInter {
     public void sacar(BigDecimal valorSaque) {
         // VERIFICANDO SE A ENTRADA FOR NULA OU SE FOR NEGATIVO E SE O TEM SALDO PARA SAQUE
         if (valorSaque == null) {
-            System.out.println("Valor do saque não pode ser nulo.");
+            mensagem.numeroNulo();
         } else if (conta.getSaldo().compareTo(valorSaque) < 0) {
-
-            System.out.println(Collor.RED + "Saldo insuficiente para sacar " + valorSaque + " R$. Operação cancelada." + Collor.RESET);
+            mensagem.saldoInsuficiente(valorSaque);
         } else if (valorSaque.compareTo(BigDecimal.ZERO) < 0) {
-            System.out.println("valor nao pode ser negativo");
+            mensagem.numeroNegativo();
         } else {
 
             try {
                 // FAZ A SUBTRAÇÃO DO SALDO
                 conta.setSaldo(conta.getSaldo().subtract(valorSaque));
                 // ADICIONA NO HISTORICO
-                listaHistorico.add(valorSaque);
+                saqueHistorico.add(valorSaque);
                 // MENSAGEM
-                System.out.println(Collor.GREEN + "Saque de " + valorSaque + " R$ realizado com sucesso." + Collor.RESET);
-                System.out.println("Novo saldo: " + conta.getSaldo() + " R$");
+                mensagem.saqueRealizado(valorSaque);
                 // LIMPA O BUFFER
                 scanner.string();
 
@@ -92,39 +104,51 @@ public class OperacoesService implements OperacoesInter {
 
         // VERIFICANDO SE A ENTRADA FOR NULA OU SE FOR NEGATIVO E SE O TEM SALDO PARA TRANSFERENCIA
         if (valorTransferencia == null) {
-            System.out.println("Valor do transferencia não pode ser nulo.");
+            mensagem.numeroNulo();
         } else if (valorTransferencia.compareTo(BigDecimal.ZERO) < 0) {
-            System.out.println(Collor.RED + "Saldo insuficiente para transferencia " + valorTransferencia+ " R$. Operação cancelada." + Collor.RESET);
+            mensagem.transfInsuficiente(valorTransferencia,numDaConta);
         } else if (saldo.compareTo(valorTransferencia) < 0) {
-            System.out.println(Collor.RED + "Saldo insuficiente para transferir " + valorTransferencia + " R$ para a conta " + numDaConta + "." + Collor.RESET);
-
+            mensagem.transfInsuficiente(valorTransferencia,numDaConta);
             scanner.string();
         } else {
             try {
                 // FAZ A SUBTRAÇÃO DO SALDO
                 conta.setSaldo(saldo.subtract(valorTransferencia));
                 // ADICIONA NO HISTORICO
-                listaHistorico.add(valorTransferencia);
+                transfHistorico.add(valorTransferencia);
                 // MENSAGEM
-                System.out.println(Collor.GREEN + "Transferência de " + valorTransferencia + " R$ para a conta " + numDaConta + " realizada com sucesso." + Collor.RESET);
-                System.out.println("Novo saldo: " + conta.getSaldo() + " R$");
+                mensagem.transferenciaRealizada(valorTransferencia,numDaConta);
                 // LIMPA O BUFFER
                 scanner.string();
-            } catch (Exception e){
+            } catch (Exception e) {
                 throw new RuntimeException("Erro ao transferir");
             }
 
         }
     }
 
-    @Override
-    public void historico() {
-
-        System.out.println("\n=== HISTÓRICO BANCÁRIO ===");
-        for (int i = 0; i < listaHistorico.size(); i++){
-            System.out.println(listaHistorico.get(i));
+    public BigDecimal depositoHistorico() {
+        int i;
+        for (i = 0; i < depositoHistorico.size(); i++) {
+            mensagem.depositoHistorico(depositoHistorico,i);
         }
-        scanner.string();
-
+        return conta.getSaldo();
     }
+
+    public BigDecimal saqueHistorico() {
+        int i;
+        for ( i = 0; i < saqueHistorico.size(); i++) {
+            mensagem.saqueHistorico(saqueHistorico,i);
+        }
+        return conta.getSaldo();
+    }
+
+    public BigDecimal transfHistorico() {
+        int i;
+        for (i = 0; i < transfHistorico.size(); i++) {
+            mensagem.transfHistorico(transfHistorico,i);
+        }
+        return conta.getSaldo();
+    }
+
 }

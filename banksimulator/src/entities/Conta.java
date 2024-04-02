@@ -14,6 +14,12 @@ public class Conta extends OperacoesService {
         super();
         this.saldo = BigDecimal.ZERO;
     }
+    public Conta(Conta conta, String nomeDoTitular, int numeroDaConta, BigDecimal saldo) {
+        super(conta);
+        this.nomeDoTitular = nomeDoTitular;
+        this.numeroDaConta = numeroDaConta;
+        this.saldo = saldo;
+    }
 
     public String getNomeDoTitular() {
         return nomeDoTitular;

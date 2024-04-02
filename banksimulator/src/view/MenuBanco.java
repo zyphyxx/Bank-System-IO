@@ -13,8 +13,7 @@ public class MenuBanco {
     public Scanner scanner = new Scanner();
     public static Conta conta = new Conta();
     static OperacoesService operacoes = new OperacoesService(conta);
-
-    public Mensagem mensagem = Mensagem.iniciarMSG(); // iniciando a mensagem
+    public Mensagem mensagem = Mensagem.iniciarMSG();
 
     // método factory
     public static MenuBanco iniciar() {
@@ -26,19 +25,10 @@ public class MenuBanco {
     public void iniciarBanco() {
         // METODO DE INICIO E CRIAÇÃO DO CLIENTE
         mensagem.bemVindo();
-
-        try {
-
-            scanner.lerUsuario();
-            scanner.lerConta();
-
-            statusCliente();
-
-        } catch (NumberFormatException e) {
-            mensagem.entradaInvalidaNum();
-        }
-
-
+        operacoes.nomeUsuario();
+        operacoes.numeroConta();
+        // STATUS
+        statusCliente();
     }
 
     public void operacaoSair() {
@@ -54,15 +44,15 @@ public class MenuBanco {
     }
 
     public void menuSelecao() {
-
+        // VAR
         int valor;
 
         do {
-
+            // MENSAGEM
             mensagem.menu();
-
             valor = scanner.inteiro();
-            scanner.string(); // consumir o enter
+            // LIMPAR O BUFFER
+            scanner.string();
 
             switch (valor) {
                 case 1:
@@ -78,13 +68,18 @@ public class MenuBanco {
                     operacaoHistorico();
                     break;
                 case 5:
+                    mensagem.exibirMenuAjuda();
+                    scanner.string();
+                    break;
+                case 6:
                     operacaoSair();
+                    break;
                 default:
-                    System.out.println("menu");
+                    mensagem.entradaInvalidaNum();
                     break;
             }
 
-        } while (valor != 5);
+        } while (valor != 6);
 
     }
 
@@ -132,7 +127,13 @@ public class MenuBanco {
     }
 
     public void operacaoHistorico() {
-        // CHAMA O METODO DO HISTORICO
-        operacoes.historico();
+        // MENSAGEM
+        mensagem.historico();
+        // CHAMA OS METODOS DE HISTORICOS
+        operacoes.depositoHistorico();
+        operacoes.saqueHistorico();
+        operacoes.transfHistorico();
+        // LIMPA O BUFFER
+        scanner.string();
     }
 }
