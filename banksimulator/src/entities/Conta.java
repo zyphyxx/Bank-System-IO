@@ -10,12 +10,6 @@ public class Conta extends OperacoesService {
     private int numeroDaConta;
     private BigDecimal saldo;
 
-    public Conta (String nomeDoTitular, int numeroDaConta, BigDecimal saldo) {
-        super();
-       this.nomeDoTitular = nomeDoTitular;
-       this.numeroDaConta = numeroDaConta;
-       this.saldo = saldo;
-    }
     public Conta(){
         super();
         this.saldo = BigDecimal.ZERO;

@@ -2,18 +2,15 @@ package view;
 
 import entities.Conta;
 import services.OperacoesService;
-import utils.LeitorDadosUsuario;
 import utils.Mensagem;
+import utils.Scanner;
 
 import java.math.BigDecimal;
-import java.util.InputMismatchException;
 
 
 public class MenuBanco {
 
-    public LeitorDadosUsuario leitorDadosUsuario = new LeitorDadosUsuario();
-
-
+    public Scanner scanner = new Scanner();
     public static Conta conta = new Conta();
     static OperacoesService operacoes = new OperacoesService(conta);
 
@@ -27,13 +24,13 @@ public class MenuBanco {
     }
 
     public void iniciarBanco() {
-
+        // METODO DE INICIO E CRIAÇÃO DO CLIENTE
         mensagem.bemVindo();
 
         try {
 
-            leitorDadosUsuario.lerUsuario();
-            leitorDadosUsuario.lerConta();
+            scanner.lerUsuario();
+            scanner.lerConta();
 
             statusCliente();
 
@@ -44,52 +41,47 @@ public class MenuBanco {
 
     }
 
-    public void sairBanco() {
+    public void operacaoSair() {
+        // METODO PARA SAIR
         mensagem.sair();
     }
 
     public void statusCliente() {
-
-       mensagem.status();
-       menuSelecao();
+        // METODO DE STATUS DE CLIENTE
+        mensagem.status();
+        menuSelecao();
 
     }
 
     public void menuSelecao() {
 
-        int valor = 0;
+        int valor;
 
         do {
-            try {
 
-                mensagem.menu();
+            mensagem.menu();
 
-                valor = leitorDadosUsuario.lerInteiro();
-                leitorDadosUsuario.lerString(); // consumir o enter
+            valor = scanner.inteiro();
+            scanner.string(); // consumir o enter
 
-                switch (valor) {
-                    case 1:
-                        operacaoDepositar();
-                        break;
-                    case 2:
-                        operacaoSacar();
-                        break;
-                    case 3:
-                        transferirBanco();
-                        break;
-                    case 4:
-                        historicoBanco();
-                        break;
-                    case 5:
-                        sairBanco();
-                    default:
-                        mensagem.entradaInvalidaNum();
-                        break;
-                }
-            } catch (InputMismatchException e) {
-
-                mensagem.entradaInvalidaNum();
-                leitorDadosUsuario.lerString();
+            switch (valor) {
+                case 1:
+                    operacaoDepositar();
+                    break;
+                case 2:
+                    operacaoSacar();
+                    break;
+                case 3:
+                    operacaoTransferir();
+                    break;
+                case 4:
+                    operacaoHistorico();
+                    break;
+                case 5:
+                    operacaoSair();
+                default:
+                    System.out.println("menu");
+                    break;
             }
 
         } while (valor != 5);
@@ -97,66 +89,50 @@ public class MenuBanco {
     }
 
     public void operacaoDepositar() {
-
-        // A OPERAÇÃO DEPOSITAR ESTA ACEITANDO NUMEROS NEGATIVOS
-        // CORRIGIR ESSE ERRO
-        try {
-
-            mensagem.depositar();
-            BigDecimal valorDeposito = new BigDecimal(leitorDadosUsuario.lerString());
-            operacoes.depositar(valorDeposito);
-
-            mensagem.depositarStatus(valorDeposito);
-            leitorDadosUsuario.lerString();
-
-            statusCliente();
-
-        } catch (NumberFormatException e) {
-            mensagem.entradaInvalidaNum();
-        }
-
-
+        // MENSAGEM
+        mensagem.depositar();
+        // VARIAVEL PARA DEPOSITO
+        BigDecimal valorDeposito = new BigDecimal(scanner.string());
+        // CHAMA O METODO DEPOSITAR PASSANDO A VARIAVEL DO TIPO BIGDECIMAL
+        operacoes.depositar(valorDeposito);
+        // LIMPAR O BUFFER DO SCANNER
+        scanner.string();
+        // CHAMA O METODO DE STATUS
+        statusCliente();
     }
 
     public void operacaoSacar() {
+        // MENSAGEM
+        mensagem.sacar();
+        // VARIAVEL PARA SAQUE
+        BigDecimal valorSaque = new BigDecimal(scanner.string());
+        // CHAMA O METODO SACAR ADICIONANDO O VALOR
+        operacoes.sacar(valorSaque);
+        // CHAMA O METODO DE STATUS
+        statusCliente();
 
-        // A OPERAÇÃO SACAR ESTA SACANDO MAIS DOQUE A QUANTIDADE DE SALDO
-        // ESTA ACEITANDO OPERADORES PRIMITIVOS (+ E - )
-        // CORRIGIR ESSE ERRO
-
-        try {
-            mensagem.sacar();
-            BigDecimal valorSaque = new BigDecimal(leitorDadosUsuario.lerString());
-            operacoes.sacar(valorSaque);
-            statusCliente();
-        } catch (NumberFormatException e) {
-            mensagem.entradaInvalidaNum();
-        }
     }
 
-    public void transferirBanco() {
+    public void operacaoTransferir() {
+        // MENSAGEM
+        mensagem.transferir();
+        // VARIAVEL COM NUMERO DA CONTA
+        int numConta = scanner.inteiro();
+        // LIMPA O BUFFER
+        scanner.string();
+        // MENSAGEM
+        mensagem.transferirValor();
+        // VARIAVEL COM VALOR DE TRANSFERENCIA
+        BigDecimal valorTransferencia = new BigDecimal(scanner.string());
+        // LIMPA O BUFFER
+        scanner.string();
+        // CHAMA O METODO DE TRANSFERIR
+        operacoes.transferir(numConta, valorTransferencia);
 
-        // ESTA ACEITANDO OPERADORES PRIMITIVOS (+ E - ) ADICINANDO SALDO QUE NAO EXISTE
-        // CORRIGIR ESSE ERRO
-
-        try {
-            mensagem.transferir();
-            int numConta = leitorDadosUsuario.lerInteiro();
-            leitorDadosUsuario.lerString(); // consumir o enter
-
-            mensagem.transferirValor();
-            BigDecimal valorTransferencia = new BigDecimal(leitorDadosUsuario.lerString());
-            leitorDadosUsuario.lerString(); // consumir o enter
-
-            operacoes.transferir(numConta, valorTransferencia);
-
-        } catch (NumberFormatException e) {
-           mensagem.entradaInvalidaNum();
-        }
     }
 
-
-    public void historicoBanco() {
+    public void operacaoHistorico() {
+        // CHAMA O METODO DO HISTORICO
         operacoes.historico();
     }
 }
