@@ -92,20 +92,34 @@ public class OperacoesService implements OperacoesInter {
     }
 
     @Override
-    public void transferir(int numDaConta, BigDecimal valor) {
+    public void transferir(int numDaConta, BigDecimal valorTransferencia) {
         BigDecimal saldo = conta.getSaldo();
 
-        if (saldo.compareTo(valor) < 0) {
-            System.out.println(Collor.RED + "Saldo insuficiente para transferir " + valor + " R$ para a conta " + numDaConta + "." + Collor.RESET);
+        // VERIFICANDO SE A ENTRADA FOR NULA OU SE FOR NEGATIVO E SE O TEM SALDO PARA TRANSFERENCIA
+        if (valorTransferencia == null) {
+            System.out.println("Valor do transferencia não pode ser nulo.");
+        } else if (valorTransferencia.compareTo(BigDecimal.ZERO) < 0) {
+            System.out.println(Collor.RED + "Saldo insuficiente para transferencia " + valorTransferencia+ " R$. Operação cancelada." + Collor.RESET);
+        } else if (saldo.compareTo(valorTransferencia) < 0) {
+            System.out.println(Collor.RED + "Saldo insuficiente para transferir " + valorTransferencia + " R$ para a conta " + numDaConta + "." + Collor.RESET);
             historicoTransferenciaRecusado.add(" R$ -- RECUSADO");
             scanner.string();
         } else {
-            conta.setSaldo(saldo.subtract(valor));
-            System.out.println(Collor.GREEN + "Transferência de " + valor + " R$ para a conta " + numDaConta + " realizada com sucesso." + Collor.RESET);
-            System.out.println("Novo saldo: " + conta.getSaldo() + " R$");
-            historicoTransferencia.add(valor);
-            historicoTransferenciaRecusado.add(" R$ -- APROVADO");
-            scanner.string();
+            try {
+                // FAZ A SUBTRAÇÃO DO SALDO
+                conta.setSaldo(saldo.subtract(valorTransferencia));
+                // ADICIONA NO HISTORICO
+                historicoTransferencia.add(valorTransferencia);
+                historicoTransferenciaRecusado.add(" - Aprovado");
+                // MENSAGEM
+                System.out.println(Collor.GREEN + "Transferência de " + valorTransferencia + " R$ para a conta " + numDaConta + " realizada com sucesso." + Collor.RESET);
+                System.out.println("Novo saldo: " + conta.getSaldo() + " R$");
+                // LIMPA O BUFFER
+                scanner.string();
+            } catch (Exception e){
+                throw new RuntimeException("Erro ao transferir");
+            }
+
         }
     }
 

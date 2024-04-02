@@ -6,7 +6,6 @@ import utils.Mensagem;
 import utils.Scanner;
 
 import java.math.BigDecimal;
-import java.util.InputMismatchException;
 
 
 public class MenuBanco {
@@ -59,30 +58,30 @@ public class MenuBanco {
 
         do {
 
-                mensagem.menu();
+            mensagem.menu();
 
-                valor = scanner.inteiro();
-                scanner.string(); // consumir o enter
+            valor = scanner.inteiro();
+            scanner.string(); // consumir o enter
 
-                switch (valor) {
-                    case 1:
-                        operacaoDepositar();
-                        break;
-                    case 2:
-                        operacaoSacar();
-                        break;
-                    case 3:
-                        operacaoTransferir();
-                        break;
-                    case 4:
-                        operacaoHistorico();
-                        break;
-                    case 5:
-                        operacaoSair();
-                    default:
-                        System.out.println("menu");
-                        break;
-                }
+            switch (valor) {
+                case 1:
+                    operacaoDepositar();
+                    break;
+                case 2:
+                    operacaoSacar();
+                    break;
+                case 3:
+                    operacaoTransferir();
+                    break;
+                case 4:
+                    operacaoHistorico();
+                    break;
+                case 5:
+                    operacaoSair();
+                default:
+                    System.out.println("menu");
+                    break;
+            }
 
         } while (valor != 5);
 
@@ -114,24 +113,21 @@ public class MenuBanco {
     }
 
     public void operacaoTransferir() {
+        // MENSAGEM
+        mensagem.transferir();
+        // VARIAVEL COM NUMERO DA CONTA
+        int numConta = scanner.inteiro();
+        // LIMPA O BUFFER
+        scanner.string();
+        // MENSAGEM
+        mensagem.transferirValor();
+        // VARIAVEL COM VALOR DE TRANSFERENCIA
+        BigDecimal valorTransferencia = new BigDecimal(scanner.string());
+        // LIMPA O BUFFER
+        scanner.string();
+        // CHAMA O METODO DE TRANSFERIR
+        operacoes.transferir(numConta, valorTransferencia);
 
-        // ESTA ACEITANDO OPERADORES PRIMITIVOS (+ E - ) ADICINANDO SALDO QUE NAO EXISTE
-        // CORRIGIR ESSE ERRO
-
-        try {
-            mensagem.transferir();
-            int numConta = scanner.inteiro();
-            scanner.string(); // consumir o enter
-
-            mensagem.transferirValor();
-            BigDecimal valorTransferencia = new BigDecimal(scanner.string());
-            scanner.string(); // consumir o enter
-
-            operacoes.transferir(numConta, valorTransferencia);
-
-        } catch (NumberFormatException e) {
-            mensagem.entradaInvalidaNum();
-        }
     }
 
 
