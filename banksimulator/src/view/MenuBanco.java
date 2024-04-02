@@ -68,13 +68,18 @@ public class MenuBanco {
                     operacaoHistorico();
                     break;
                 case 5:
+                    mensagem.exibirMenuAjuda();
+                    scanner.string();
+                    break;
+                case 6:
                     operacaoSair();
+                    break;
                 default:
                     mensagem.entradaInvalidaNum();
                     break;
             }
 
-        } while (valor != 5);
+        } while (valor != 6);
 
     }
 
