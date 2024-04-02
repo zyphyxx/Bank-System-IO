@@ -24,7 +24,7 @@ public class MenuBanco {
     }
 
     public void iniciarBanco() {
-
+        // METODO DE INICIO E CRIAÇÃO DO CLIENTE
         mensagem.bemVindo();
 
         try {
@@ -42,11 +42,12 @@ public class MenuBanco {
     }
 
     public void operacaoSair() {
+        // METODO PARA SAIR
         mensagem.sair();
     }
 
     public void statusCliente() {
-
+        // METODO DE STATUS DE CLIENTE
         mensagem.status();
         menuSelecao();
 
@@ -130,8 +131,8 @@ public class MenuBanco {
 
     }
 
-
     public void operacaoHistorico() {
+        // CHAMA O METODO DO HISTORICO
         operacoes.historico();
     }
 }

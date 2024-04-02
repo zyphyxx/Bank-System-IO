@@ -17,12 +17,7 @@ public class OperacoesService implements OperacoesInter {
 
 
     // LISTA PARA HISTORICO DE TRANSFERENCIA
-    ArrayList<BigDecimal> historicoDeposito = new ArrayList<>();
-    ArrayList<BigDecimal> historicoSaques = new ArrayList<>();
-    ArrayList<BigDecimal> historicoTransferencia = new ArrayList<>();
-
-    ArrayList<String> historicoSaqueRecusado = new ArrayList<>();
-    ArrayList<String> historicoTransferenciaRecusado = new ArrayList<>();
+    ArrayList<BigDecimal> listaHistorico = new ArrayList<>();
 
 
     private Conta conta;
@@ -51,7 +46,7 @@ public class OperacoesService implements OperacoesInter {
                 // ADICIONA O VALOR NA CONTA
                 conta.setSaldo(conta.getSaldo().add(valorDeposito));
                 // ADICIONA NO HISTORICO
-                historicoDeposito.add(valorDeposito);
+                listaHistorico.add(valorDeposito);
                 // MENSAGEM
                 mensagem.depositarStatus(valorDeposito);
 
@@ -68,7 +63,7 @@ public class OperacoesService implements OperacoesInter {
         if (valorSaque == null) {
             System.out.println("Valor do saque não pode ser nulo.");
         } else if (conta.getSaldo().compareTo(valorSaque) < 0) {
-            historicoSaqueRecusado.add(" - Recusado");
+
             System.out.println(Collor.RED + "Saldo insuficiente para sacar " + valorSaque + " R$. Operação cancelada." + Collor.RESET);
         } else if (valorSaque.compareTo(BigDecimal.ZERO) < 0) {
             System.out.println("valor nao pode ser negativo");
@@ -78,7 +73,7 @@ public class OperacoesService implements OperacoesInter {
                 // FAZ A SUBTRAÇÃO DO SALDO
                 conta.setSaldo(conta.getSaldo().subtract(valorSaque));
                 // ADICIONA NO HISTORICO
-                historicoSaqueRecusado.add(" - Aprovado");
+                listaHistorico.add(valorSaque);
                 // MENSAGEM
                 System.out.println(Collor.GREEN + "Saque de " + valorSaque + " R$ realizado com sucesso." + Collor.RESET);
                 System.out.println("Novo saldo: " + conta.getSaldo() + " R$");
@@ -102,15 +97,14 @@ public class OperacoesService implements OperacoesInter {
             System.out.println(Collor.RED + "Saldo insuficiente para transferencia " + valorTransferencia+ " R$. Operação cancelada." + Collor.RESET);
         } else if (saldo.compareTo(valorTransferencia) < 0) {
             System.out.println(Collor.RED + "Saldo insuficiente para transferir " + valorTransferencia + " R$ para a conta " + numDaConta + "." + Collor.RESET);
-            historicoTransferenciaRecusado.add(" R$ -- RECUSADO");
+
             scanner.string();
         } else {
             try {
                 // FAZ A SUBTRAÇÃO DO SALDO
                 conta.setSaldo(saldo.subtract(valorTransferencia));
                 // ADICIONA NO HISTORICO
-                historicoTransferencia.add(valorTransferencia);
-                historicoTransferenciaRecusado.add(" - Aprovado");
+                listaHistorico.add(valorTransferencia);
                 // MENSAGEM
                 System.out.println(Collor.GREEN + "Transferência de " + valorTransferencia + " R$ para a conta " + numDaConta + " realizada com sucesso." + Collor.RESET);
                 System.out.println("Novo saldo: " + conta.getSaldo() + " R$");
@@ -127,27 +121,9 @@ public class OperacoesService implements OperacoesInter {
     public void historico() {
 
         System.out.println("\n=== HISTÓRICO BANCÁRIO ===");
-
-        System.out.println("\n" + Collor.GREEN + "Histórico de depósitos:" + Collor.RESET);
-        for (int i = 0; i < historicoDeposito.size(); i++) {
-            System.out.println((i + 1) + " - " + historicoDeposito.get(i) + " R$");
+        for (int i = 0; i < listaHistorico.size(); i++){
+            System.out.println(listaHistorico.get(i));
         }
-
-        System.out.println("\n" + Collor.RED + "Histórico de saques:" + Collor.RESET);
-        for (int i = 0; i < (historicoSaques.size() & historicoSaqueRecusado.size()); i++) {
-
-            System.out.println((i + 1) + " - " + historicoSaques.get(i) + " " + historicoSaqueRecusado.get(i));
-
-        }
-
-        System.out.println("\n" + Collor.BLUE + "Histórico de transferências:" + Collor.RESET);
-
-        for (int i = 0; i < (historicoTransferencia.size() & historicoTransferenciaRecusado.size()); i++) {
-
-            System.out.println((i + 1) + " - " + historicoTransferencia.get(i) + " " + historicoTransferenciaRecusado.get(i));
-
-        }
-
         scanner.string();
 
     }
