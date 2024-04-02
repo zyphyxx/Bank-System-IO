@@ -8,16 +8,17 @@ public class Conta extends OperacoesService {
 
     private String nomeDoTitular;
     private int numeroDaConta;
-    private BigDecimal saldo = BigDecimal.ZERO;
+    private BigDecimal saldo;
 
     public Conta (String nomeDoTitular, int numeroDaConta, BigDecimal saldo) {
         super();
        this.nomeDoTitular = nomeDoTitular;
        this.numeroDaConta = numeroDaConta;
-       this.saldo = BigDecimal.ZERO;
+       this.saldo = saldo;
     }
     public Conta(){
         super();
+        this.saldo = BigDecimal.ZERO;
     }
 
     public String getNomeDoTitular() {
