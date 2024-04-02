@@ -2,17 +2,19 @@ package services;
 
 import entities.Conta;
 import services.interfaces.OperacoesInter;
-import utils.LeitorDadosUsuario;
-import view.CoresANSI;
+import utils.Mensagem;
+import utils.Scanner;
+import utils.Collor;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class OperacoesService implements OperacoesInter {
 
 
-    LeitorDadosUsuario leitorDadosUsuario = LeitorDadosUsuario.iniciarLeitor();
+    Scanner scanner = Scanner.iniciarLeitor();
+    Mensagem mensagem = Mensagem.iniciarMSG();
+
 
     // LISTA PARA HISTORICO DE TRANSFERENCIA
     ArrayList<BigDecimal> historicoDeposito = new ArrayList<>();
@@ -34,24 +36,29 @@ public class OperacoesService implements OperacoesInter {
         super();
     }
 
+
     @Override
     public BigDecimal depositar(BigDecimal valorDeposito) {
-
-        if (valorDeposito.compareTo(BigDecimal.ZERO) < 0){
-            System.out.println("O valor é negativo.");
-
-        }
+        // VERIFICANDO SE A ENTRADA FOR NULA OU SE FOR NEGATIVO LANÇAR UMA EXCEPTION
         if (valorDeposito == null) {
-            throw new IllegalArgumentException("Valor do depósito não pode ser nulo.");
+            System.out.println("Valor do depósito não pode ser nulo.");
+            return conta.getSaldo();
+
+        } else if (valorDeposito.compareTo(BigDecimal.ZERO) < 0) {
+            System.out.println("\"Número negativo não é permitido.\"");
+
+            return conta.getSaldo();
         }
+        // ADICIONA O VALOR NA CONTA
         try {
             conta.setSaldo(conta.getSaldo().add(valorDeposito));
+            // MENSAGEM
+            mensagem.depositarStatus(valorDeposito);
+            // ADICIONA NO HISTORICO
             historicoDeposito.add(valorDeposito);
         } catch (Exception e) {
-            System.out.println("Erro ao depositar valor: " + valorDeposito);
-            throw e;
+            throw new RuntimeException("Erro ao depositar valor: " + valorDeposito);
         }
-
         return conta.getSaldo();
     }
 
@@ -60,9 +67,9 @@ public class OperacoesService implements OperacoesInter {
         BigDecimal saldo = conta.getSaldo();
 
         if (saldo.compareTo(valor) < 0) {
-            System.out.println(CoresANSI.RED + "Saldo insuficiente para sacar " + valor + " R$. Operação cancelada." + CoresANSI.RESET);
+            System.out.println(Collor.RED + "Saldo insuficiente para sacar " + valor + " R$. Operação cancelada." + Collor.RESET);
             historicoSaqueRecusado.add(" R$ -- RECUSADO FALTA DE SALDO");
-            leitorDadosUsuario.lerString();
+            scanner.string();
         }
         if (valor == null) {
             throw new IllegalArgumentException("Valor do depósito não pode ser nulo.");
@@ -70,11 +77,11 @@ public class OperacoesService implements OperacoesInter {
 
             try {
                 conta.setSaldo(saldo.subtract(valor));
-                System.out.println(CoresANSI.GREEN + "Saque de " + valor + " R$ realizado com sucesso." + CoresANSI.RESET);
+                System.out.println(Collor.GREEN + "Saque de " + valor + " R$ realizado com sucesso." + Collor.RESET);
                 System.out.println("Novo saldo: " + conta.getSaldo() + " R$");
                 historicoSaqueRecusado.add(" R$ -- APROVADO");
                 historicoSaques.add(valor);
-                leitorDadosUsuario.lerString();
+                scanner.string();
             } catch (Exception e) {
                 System.out.println("Erro para sacar");
                 throw e;
@@ -88,16 +95,16 @@ public class OperacoesService implements OperacoesInter {
         BigDecimal saldo = conta.getSaldo();
 
         if ( saldo.compareTo(valor) < 0 ) {
-            System.out.println(CoresANSI.RED + "Saldo insuficiente para transferir " + valor + " R$ para a conta " + numDaConta + "." + CoresANSI.RESET);
+            System.out.println(Collor.RED + "Saldo insuficiente para transferir " + valor + " R$ para a conta " + numDaConta + "." + Collor.RESET);
             historicoTransferenciaRecusado.add(" R$ -- RECUSADO");
-            leitorDadosUsuario.lerString();
+            scanner.string();
         } else {
             conta.setSaldo(saldo.subtract(valor));
-            System.out.println(CoresANSI.GREEN + "Transferência de " + valor + " R$ para a conta " + numDaConta + " realizada com sucesso." + CoresANSI.RESET);
+            System.out.println(Collor.GREEN + "Transferência de " + valor + " R$ para a conta " + numDaConta + " realizada com sucesso." + Collor.RESET);
             System.out.println("Novo saldo: " + conta.getSaldo() + " R$");
             historicoTransferencia.add(valor);
             historicoTransferenciaRecusado.add(" R$ -- APROVADO");
-            leitorDadosUsuario.lerString();
+            scanner.string();
         }
     }
 
@@ -106,19 +113,19 @@ public class OperacoesService implements OperacoesInter {
 
         System.out.println("\n=== HISTÓRICO BANCÁRIO ===");
 
-        System.out.println("\n" + CoresANSI.GREEN + "Histórico de depósitos:" + CoresANSI.RESET);
+        System.out.println("\n" + Collor.GREEN + "Histórico de depósitos:" + Collor.RESET);
         for (int i = 0; i < historicoDeposito.size(); i++) {
             System.out.println((i + 1) + " - " + historicoDeposito.get(i) + " R$");
         }
 
-        System.out.println("\n" + CoresANSI.RED + "Histórico de saques:" + CoresANSI.RESET);
+        System.out.println("\n" + Collor.RED + "Histórico de saques:" + Collor.RESET);
         for (int i = 0; i < (historicoSaques.size() & historicoSaqueRecusado.size()); i++) {
 
                 System.out.println((i + 1) + " - " + historicoSaques.get(i)+ " " + historicoSaqueRecusado.get(i));
 
         }
 
-        System.out.println("\n" + CoresANSI.BLUE + "Histórico de transferências:" + CoresANSI.RESET);
+        System.out.println("\n" + Collor.BLUE + "Histórico de transferências:" + Collor.RESET);
 
         for (int i = 0; i < (historicoTransferencia.size() & historicoTransferenciaRecusado.size()); i++) {
 
@@ -126,7 +133,7 @@ public class OperacoesService implements OperacoesInter {
 
         }
 
-        leitorDadosUsuario.lerString();
+        scanner.string();
 
     }
 }

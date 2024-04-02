@@ -1,39 +1,36 @@
 package utils;
 
-import java.util.Scanner;
-
 import static view.MenuBanco.conta;
 
-public class LeitorDadosUsuario {
+public class Scanner {
 
-    private final Scanner scanner;
+    private final java.util.Scanner scanner;
 
 
-    public static LeitorDadosUsuario iniciarLeitor (){
-        return new LeitorDadosUsuario();
+    public static Scanner iniciarLeitor (){
+        return new Scanner();
     }
 
-   public LeitorDadosUsuario () {
-   this.scanner = new Scanner(System.in);
+   public Scanner() {
+   this.scanner = new java.util.Scanner(System.in);
    }
 
-   public String lerString () {
+   public String string () {
        return scanner.nextLine();
    }
 
-   public int lerInteiro () {
+   public int inteiro () {
        return scanner.nextInt();
 
    }
 
-   public double lerDouble () {
-       return scanner.nextDouble();
-   }
+
+
 
    public void lerUsuario (){
        // ENTRADA DO NOME
        System.out.println("Digite seu nome:");
-       String nomeUsuario = lerString();
+       String nomeUsuario = string();
        conta.setNomeDoTitular(nomeUsuario);
    }
 
@@ -41,7 +38,7 @@ public class LeitorDadosUsuario {
    public void lerConta () {
        // ENTRADA DO NUMERO DA CONTA
        System.out.println("Digite o número da sua conta:");
-       int numConta = Integer.parseInt(lerString());
+       int numConta = Integer.parseInt(string());
        conta.setNumeroDaConta(numConta);
    }
 }

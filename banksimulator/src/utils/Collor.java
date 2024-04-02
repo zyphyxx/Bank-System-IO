@@ -1,6 +1,6 @@
-package view;
+package utils;
 
-public class CoresANSI {
+public class Collor {
 
     // Cores ANSI para formatação do texto
     public static final String RESET = "\u001B[0m";

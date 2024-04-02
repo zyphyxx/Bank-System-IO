@@ -1,7 +1,5 @@
 package utils;
 
-import view.CoresANSI;
-
 import java.math.BigDecimal;
 
 import static view.MenuBanco.conta;
@@ -15,50 +13,50 @@ public class Mensagem {
     }
 
     public void bemVindo () {
-        System.out.println(CoresANSI.YELLOW + "=== BEM-VINDO AO BANCO ===" + CoresANSI.RESET + "\n");
+        System.out.println(Collor.YELLOW + "=== BEM-VINDO AO BANCO ===" + Collor.RESET + "\n");
     }
 
     public void sair () {
-        System.out.println("\n" + CoresANSI.GREEN + conta.getNomeDoTitular() + ", você está saindo... " +
-                "\nAté a próxima ;D\n" + CoresANSI.RESET);
+        System.out.println("\n" + Collor.GREEN + conta.getNomeDoTitular() + ", você está saindo... " +
+                "\nAté a próxima ;D\n" + Collor.RESET);
         System.exit(0);
     }
 
     public void status () {
-        System.out.println("\n" + CoresANSI.CYAN + "=================================" + CoresANSI.RESET);
-        System.out.println("Bem-vindo(a): " + CoresANSI.GREEN + conta.getNomeDoTitular() + CoresANSI.RESET);
-        System.out.println("Número do conta: " + CoresANSI.PURPLE + conta.getNumeroDaConta() + CoresANSI.RESET);
-        System.out.println("Saldo atual: " + CoresANSI.YELLOW + "R$" + conta.getSaldo() + CoresANSI.RESET);
-        System.out.println(CoresANSI.CYAN + "=================================" + CoresANSI.RESET + "\n");
+        System.out.println("\n" + Collor.CYAN + "=================================" + Collor.RESET);
+        System.out.println("Bem-vindo(a): " + Collor.GREEN + conta.getNomeDoTitular() + Collor.RESET);
+        System.out.println("Número do conta: " + Collor.PURPLE + conta.getNumeroDaConta() + Collor.RESET);
+        System.out.println("Saldo atual: " + Collor.YELLOW + "R$" + conta.getSaldo() + Collor.RESET);
+        System.out.println(Collor.CYAN + "=================================" + Collor.RESET + "\n");
     }
 
     public void menu () {
-        System.out.println(CoresANSI.GREEN + "==== OPERAÇÕES ====" + CoresANSI.RESET);
-        System.out.println("1 - " + CoresANSI.CYAN + "Depositar" + CoresANSI.RESET);
-        System.out.println("2 - " + CoresANSI.CYAN + "Sacar" + CoresANSI.RESET);
-        System.out.println("3 - " + CoresANSI.CYAN + "Transferir" + CoresANSI.RESET);
-        System.out.println("4 - " + CoresANSI.CYAN + "Historico" + CoresANSI.RESET);
-        System.out.println("5 - " + CoresANSI.RED + "Sair" + CoresANSI.RESET);
+        System.out.println(Collor.GREEN + "==== OPERAÇÕES ====" + Collor.RESET);
+        System.out.println("1 - " + Collor.CYAN + "Depositar" + Collor.RESET);
+        System.out.println("2 - " + Collor.CYAN + "Sacar" + Collor.RESET);
+        System.out.println("3 - " + Collor.CYAN + "Transferir" + Collor.RESET);
+        System.out.println("4 - " + Collor.CYAN + "Historico" + Collor.RESET);
+        System.out.println("5 - " + Collor.RED + "Sair" + Collor.RESET);
         System.out.println("Digite sua opção:");
     }
 
     public void depositar () {
-        System.out.println("\n" + CoresANSI.YELLOW + "=== DEPOSITAR ===" + CoresANSI.RESET);
+        System.out.println("\n" + Collor.YELLOW + "=== DEPOSITAR ===" + Collor.RESET);
         System.out.println("\nDigite o valor a ser depositado:");
     }
 
     public void depositarStatus (BigDecimal valorDeposito) {
-        System.out.println(CoresANSI.GREEN + "Depósito de " + valorDeposito + " R$ realizado com sucesso." + CoresANSI.RESET);
+        System.out.println(Collor.GREEN + "Depósito de " + valorDeposito + " R$ realizado com sucesso." + Collor.RESET);
         System.out.println("Novo saldo: " + conta.getSaldo() + " R$");
     }
 
     public void sacar () {
-        System.out.println("\n" + CoresANSI.YELLOW + "=== SACAR ===" + CoresANSI.RESET);
+        System.out.println("\n" + Collor.YELLOW + "=== SACAR ===" + Collor.RESET);
         System.out.println("Digite o valor a ser sacado:");
     }
 
     public void transferir () {
-        System.out.println("\n" + CoresANSI.YELLOW + "=== TRANSFERIR ===" + CoresANSI.RESET);
+        System.out.println("\n" + Collor.YELLOW + "=== TRANSFERIR ===" + Collor.RESET);
         System.out.println("\nDigite o número da conta de destino:");
     }
 
@@ -67,7 +65,7 @@ public class Mensagem {
     }
 
     public void entradaInvalidaNum () {
-        System.out.println(CoresANSI.RED + "\nOpção inválida. Por favor, digite um número correspondente à operação desejada." + CoresANSI.RESET + "\n");
+        System.out.println(Collor.RED + "\nOpção inválida. Por favor, digite um número correspondente à operação desejada." + Collor.RESET + "\n");
         //System.out.println(CoresANSI.RED + "\nOpção inválida. Por favor, escolha uma das opções disponíveis." + CoresANSI.RESET + "\n");
     }
 
