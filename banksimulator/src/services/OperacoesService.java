@@ -1,6 +1,6 @@
 package services;
 
-import entities.Conta;
+import entities.Account;
 import services.interfaces.OperacoesInter;
 import utils.Collor;
 import utils.Mensagem;
@@ -14,19 +14,19 @@ public class OperacoesService implements OperacoesInter {
     // INSTANCIANDO OS METODOS SCANNER E MENSAGEM
     Scanner scanner = new Scanner();
     Mensagem mensagem;
-    private Conta conta;
+    private Account conta;
     // LISTA PARA HISTORICO DE TRANSFERENCIA
     private final ArrayList<BigDecimal> depositoHistorico = new ArrayList<>();
     private final ArrayList<BigDecimal> saqueHistorico = new ArrayList<>();
     private final ArrayList<BigDecimal> transfHistorico = new ArrayList<>();
     // CONSTRUTOR
-    public OperacoesService(Conta conta) {
+    public OperacoesService(Account conta) {
         this.conta = conta;
     }
     public OperacoesService() {
         super();
     }
-    public OperacoesService(Conta conta, Mensagem mensagem) {
+    public OperacoesService(Account conta, Mensagem mensagem) {
         this.conta = conta;
         this.mensagem = mensagem;
     }

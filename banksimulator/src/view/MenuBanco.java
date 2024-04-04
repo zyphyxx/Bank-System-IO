@@ -1,6 +1,6 @@
 package view;
 
-import entities.Conta;
+import entities.Account;
 import services.OperacoesService;
 import utils.Mensagem;
 import utils.Scanner;
@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 public class MenuBanco {
 
     private Scanner scanner = new Scanner();
-    private Conta conta = new Conta();
+    private Account conta = new Account();
     private OperacoesService operacoes = new OperacoesService(conta);
     private Mensagem mensagem = new Mensagem(operacoes.nomeUsuario(),operacoes.numeroConta());
 

@@ -1,7 +1,6 @@
 package utils;
 
-import entities.Conta;
-import services.OperacoesService;
+import entities.Account;
 
 
 import java.math.BigDecimal;
@@ -159,7 +158,7 @@ public class Mensagem {
     // IMPLEMENTANDO A NOVA FUNC. CRIAR CONTA
 
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-    public void status(Conta contaUser) {
+    public void status(Account contaUser) {
         System.out.println("\n" + Collor.CYAN + "=================================" + Collor.RESET);
         System.out.println("Olá, " + Collor.GREEN + contaUser.getNomeDoTitular() + Collor.RESET + "!");
         System.out.println("Número da sua conta: " + Collor.PURPLE + contaUser.getNumeroDaConta() + Collor.RESET);
