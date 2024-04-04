@@ -9,19 +9,16 @@ import utils.Scanner;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
-import static view.MenuBanco.conta;
-
 public class OperacoesService implements OperacoesInter {
 
     // INSTANCIANDO OS METODOS SCANNER E MENSAGEM
-    Scanner scanner = Scanner.iniciarLeitor();
-    Mensagem mensagem = Mensagem.iniciarMSG();
+    Scanner scanner = new Scanner();
+    Mensagem mensagem;
+    private Conta conta;
     // LISTA PARA HISTORICO DE TRANSFERENCIA
     private final ArrayList<BigDecimal> depositoHistorico = new ArrayList<>();
     private final ArrayList<BigDecimal> saqueHistorico = new ArrayList<>();
     private final ArrayList<BigDecimal> transfHistorico = new ArrayList<>();
-    // VAR
-    private Conta conta;
     // CONSTRUTOR
     public OperacoesService(Conta conta) {
         this.conta = conta;
@@ -29,24 +26,10 @@ public class OperacoesService implements OperacoesInter {
     public OperacoesService() {
         super();
     }
-
-    public void nomeUsuario (){
-        // MENSAGEM
-        mensagem.nome();
-        // ENTRADA DO NOME
-        String nomeUsuario = scanner.string();
-        conta.setNomeDoTitular(nomeUsuario);
+    public OperacoesService(Conta conta, Mensagem mensagem) {
+        this.conta = conta;
+        this.mensagem = mensagem;
     }
-
-    // ARRUMAR O ERRO QUANDO O USUARIO ENTRA COM LETRAS
-    public void numeroConta () {
-        // MENSAGEM
-        mensagem.conta();
-        // ENTRADA DO NUMERO DA CONTA
-        int numeroConta = Integer.parseInt(scanner.string());
-        conta.setNumeroDaConta(numeroConta);
-    }
-
     @Override
     public void depositar(BigDecimal valorDeposito) {
         // VERIFICANDO SE A ENTRADA FOR NULA OU SE FOR NEGATIVO LANÇAR UMA EXCEPTION
@@ -150,5 +133,33 @@ public class OperacoesService implements OperacoesInter {
         }
         return conta.getSaldo();
     }
+
+    // NOVO METODO PARA CRIAÇÃO TESTE
+    // IMPLEMENTANDO A NOVA FUNC. CRIAR CONTA
+    public String nomeUsuario (){
+        // MENSAGEM
+        mensagem.nome();
+        // ENTRADA DO NOME
+        String nome = scanner.string();
+        return nome;
+    }
+
+    // ARRUMAR O ERRO QUANDO O USUARIO ENTRA COM LETRAS
+    public int numeroConta () {
+        // MENSAGEM
+        mensagem.conta();
+        // ENTRADA DO NUMERO DA CONTA
+        int numeroConta = Integer.parseInt(scanner.string());
+        return numeroConta;
+    }
+
+    // FAZER A VALIDAÇÃO SE A SENHA
+    public String senhaUsuario () {
+        System.out.println(Collor.CYAN + "Por favor, crie sua senha (mínimo de 6 caracteres):" + Collor.RESET);
+        String senha = scanner.string();
+        return senha;
+    }
+
+
 
 }

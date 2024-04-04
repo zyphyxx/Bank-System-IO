@@ -3,22 +3,31 @@ package entities;
 import services.OperacoesService;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 public class Conta extends OperacoesService {
 
     private String nomeDoTitular;
     private int numeroDaConta;
     private BigDecimal saldo;
+    // IMPLEMENTANDO AS NOVAS FEAT. SENHA E DIA
+    private String senha;
+    private LocalDateTime dia = LocalDateTime.now();
 
     public Conta(){
         super();
         this.saldo = BigDecimal.ZERO;
     }
-    public Conta(Conta conta, String nomeDoTitular, int numeroDaConta, BigDecimal saldo) {
-        super(conta);
-        this.nomeDoTitular = nomeDoTitular;
-        this.numeroDaConta = numeroDaConta;
-        this.saldo = saldo;
+
+    // IMPLEMENTANDO O NOVO CONSTRUTOR PARA CRIAR O USUARIO
+    public Conta (String nome, int conta, String senha){
+        this.nomeDoTitular = nome;
+        this.numeroDaConta = conta;
+        this.senha = senha;
+        // iniciando o saldo
+        this.saldo = BigDecimal.ZERO;
     }
 
     public String getNomeDoTitular() {
@@ -43,5 +52,21 @@ public class Conta extends OperacoesService {
 
     public void setSaldo(BigDecimal saldo) {
         this.saldo = saldo;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
+    public LocalDateTime getDia() {
+        return dia;
+    }
+
+    public void setDia(LocalDateTime dia) {
+        this.dia = dia;
     }
 }

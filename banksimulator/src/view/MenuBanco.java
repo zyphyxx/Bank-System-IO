@@ -10,38 +10,27 @@ import java.math.BigDecimal;
 
 public class MenuBanco {
 
-    public Scanner scanner = new Scanner();
-    public static Conta conta = new Conta();
-    static OperacoesService operacoes = new OperacoesService(conta);
-    public Mensagem mensagem = Mensagem.iniciarMSG();
-
-    // método factory
-    public static MenuBanco iniciar() {
-        MenuBanco menuBanco = new MenuBanco();
-        menuBanco.iniciarBanco();
-        return menuBanco;
-    }
+    private Scanner scanner = new Scanner();
+    private Conta conta = new Conta();
+    private OperacoesService operacoes = new OperacoesService(conta);
+    private Mensagem mensagem = new Mensagem(operacoes.nomeUsuario(),operacoes.numeroConta());
 
     public void iniciarBanco() {
         // METODO DE INICIO E CRIAÇÃO DO CLIENTE
         mensagem.bemVindo();
+        // STATUS
         operacoes.nomeUsuario();
         operacoes.numeroConta();
-        // STATUS
-        statusCliente();
-    }
-
-    public void operacaoSair() {
-        // METODO PARA SAIR
-        mensagem.sair();
-    }
-
-    public void statusCliente() {
-        // METODO DE STATUS DE CLIENTE
+        operacoes.senhaUsuario();
         mensagem.status();
         menuSelecao();
+    }
+    public void statusCliente() {
+        // METODO DE STATUS DE CLIENTE
+
 
     }
+
 
     public void menuSelecao() {
         // VAR
@@ -82,7 +71,6 @@ public class MenuBanco {
         } while (valor != 6);
 
     }
-
     public void operacaoDepositar() {
         // MENSAGEM
         mensagem.depositar();
@@ -107,7 +95,6 @@ public class MenuBanco {
         statusCliente();
 
     }
-
     public void operacaoTransferir() {
         // MENSAGEM
         mensagem.transferir();
@@ -136,4 +123,10 @@ public class MenuBanco {
         // LIMPA O BUFFER
         scanner.string();
     }
+
+    public void operacaoSair() {
+        // METODO PARA SAIR
+        mensagem.sair();
+    }
+
 }

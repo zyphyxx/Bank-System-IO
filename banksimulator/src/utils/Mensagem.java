@@ -1,13 +1,20 @@
 package utils;
 
+import entities.Conta;
+import services.OperacoesService;
+
+
 import java.math.BigDecimal;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-import static view.MenuBanco.conta;
-
 public class Mensagem {
-    public static Mensagem iniciarMSG() {
-        return new Mensagem();
+
+    private String nome;
+    private int conta;
+    public Mensagem (String nome, int conta) {
+        this.nome = nome;
+        this.conta = conta;
     }
 
     public void bemVindo() {
@@ -19,15 +26,15 @@ public class Mensagem {
     }
 
     public void sair() {
-        System.out.println("\n" + Collor.GREEN + "Até logo, " + conta.getNomeDoTitular() + "! Obrigado por usar nossos serviços." + Collor.RESET);
+        System.out.println("\n" + Collor.GREEN + "Até logo, " + nome + "! Obrigado por usar nossos serviços." + Collor.RESET);
         System.exit(0);
     }
 
     public void status() {
         System.out.println("\n" + Collor.CYAN + "=================================" + Collor.RESET);
-        System.out.println("Olá, " + Collor.GREEN + conta.getNomeDoTitular() + Collor.RESET + "!");
-        System.out.println("Número da sua conta: " + Collor.PURPLE + conta.getNumeroDaConta() + Collor.RESET);
-        System.out.println("Saldo disponível: " + Collor.YELLOW + "R$" + conta.getSaldo() + Collor.RESET);
+        System.out.println("Olá, " + Collor.GREEN + nome + Collor.RESET + "!");
+        System.out.println("Número da sua conta: " + Collor.PURPLE + conta + Collor.RESET);
+       // System.out.println("Saldo disponível: " + Collor.YELLOW + "R$" + conta.getSaldo() + Collor.RESET);
         System.out.println(Collor.CYAN + "=================================" + Collor.RESET + "\n");
     }
 
@@ -50,7 +57,7 @@ public class Mensagem {
     public void depositarStatus(BigDecimal valorDeposito) {
         System.out.println("\n" + Collor.GREEN + "=== DEPÓSITO REALIZADO ===" + Collor.RESET);
         System.out.println("Valor depositado: " + valorDeposito + " R$");
-        System.out.println("Novo saldo: " + conta.getSaldo() + " R$");
+        //System.out.println("Novo saldo: " + conta.getSaldo() + " R$");
         System.out.println("✔️ Operação bem-sucedida!");
     }
 
@@ -83,7 +90,7 @@ public class Mensagem {
     }
 
     public void conta() {
-        System.out.println(Collor.CYAN + "Digite o número da sua conta:" + Collor.RESET);
+        System.out.println(Collor.CYAN + "Por favor, crie o número da sua conta com 5 dígitos:" + Collor.RESET);
 
     }
 
@@ -108,7 +115,7 @@ public class Mensagem {
 
     public void saqueRealizado(BigDecimal valorSaque) {
         System.out.println(Collor.GREEN + "Saque de R$" + valorSaque + " realizado com sucesso." + Collor.RESET);
-        System.out.println("Saldo atualizado: R$" + conta.getSaldo());
+        //System.out.println("Saldo atualizado: R$" + conta.getSaldo());
         System.out.println("✔️ Operação bem-sucedida!");
 
     }
@@ -121,7 +128,7 @@ public class Mensagem {
 
     public void transferenciaRealizada(BigDecimal valorTransferencia, int numDaConta) {
         System.out.println(Collor.GREEN + "Transferência de R$" + valorTransferencia + " para a conta " + numDaConta + " realizada com sucesso." + Collor.RESET);
-        System.out.println("Saldo atual: " + conta.getSaldo() + " R$");
+        //System.out.println("Saldo atual: " + conta.getSaldo() + " R$");
         System.out.println("✔️ Operação bem-sucedida!");
 
     }
@@ -148,5 +155,19 @@ public class Mensagem {
 
     }
 
+    // NOVO METODO PARA CRIAÇÃO TESTE
+    // IMPLEMENTANDO A NOVA FUNC. CRIAR CONTA
+
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+    public void status(Conta contaUser) {
+        System.out.println("\n" + Collor.CYAN + "=================================" + Collor.RESET);
+        System.out.println("Olá, " + Collor.GREEN + contaUser.getNomeDoTitular() + Collor.RESET + "!");
+        System.out.println("Número da sua conta: " + Collor.PURPLE + contaUser.getNumeroDaConta() + Collor.RESET);
+        System.out.println("Saldo disponível: " + Collor.YELLOW + "R$" + contaUser.getSaldo() + Collor.RESET);
+        System.out.println("Senha: " + Collor.YELLOW + contaUser.getSenha() + Collor.RESET);
+        System.out.println("DIA: " + Collor.YELLOW + contaUser.getDia().format(dtf) + Collor.RESET);
+        System.out.println(Collor.CYAN + "=================================" + Collor.RESET + "\n");
+
+    }
 
 }

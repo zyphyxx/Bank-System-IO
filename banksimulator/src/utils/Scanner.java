@@ -4,11 +4,6 @@ public class Scanner {
 
     private final java.util.Scanner scanner;
 
-
-    public static Scanner iniciarLeitor (){
-        return new Scanner();
-    }
-
    public Scanner() {
    this.scanner = new java.util.Scanner(System.in);
    }

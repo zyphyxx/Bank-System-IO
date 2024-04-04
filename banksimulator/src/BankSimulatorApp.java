@@ -5,7 +5,8 @@ public class BankSimulatorApp {
 
     public static void main(String[] args) {
 
-        MenuBanco menuBanco = MenuBanco.iniciar();
+        MenuBanco menuBanco  = new MenuBanco();
+        menuBanco.iniciarBanco();
 
     }
 
