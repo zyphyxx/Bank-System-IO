@@ -1,7 +1,5 @@
 package entities;
 
-import services.OperacoesService;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 

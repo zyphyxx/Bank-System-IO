@@ -1,7 +1,7 @@
+/*
 package services;
 
 import entities.Account;
-import services.imp.OperacoesInter;
 import utils.Collor;
 import utils.Mensagem;
 import utils.Scanner;
@@ -163,3 +163,5 @@ public class OperacoesService implements OperacoesInter {
 
 
 }
+
+ */

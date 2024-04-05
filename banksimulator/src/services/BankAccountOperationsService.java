@@ -13,6 +13,7 @@ public class BankAccountOperationsService implements BankAccountOperations {
     // CONSTRUTOR PRIVADO
     private BankAccountOperationsService(){
        account = new Account();
+       account.setBalance(BigDecimal.ZERO);
     }
     // METODO PARA INSTANCIAR
     public static BankAccountOperationsService getInstance(){
@@ -48,5 +49,10 @@ public class BankAccountOperationsService implements BankAccountOperations {
         account.setAccountNumber(accountNumber);
         account.setAccountStatus(true);
         account.setBalance(BigDecimal.ZERO);
+    }
+
+    @Override
+    public BigDecimal balance() {
+        return account.getBalance();
     }
 }
