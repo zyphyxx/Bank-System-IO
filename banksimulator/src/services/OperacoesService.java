@@ -1,7 +1,7 @@
 package services;
 
 import entities.Account;
-import services.interfaces.OperacoesInter;
+import services.imp.OperacoesInter;
 import utils.Collor;
 import utils.Mensagem;
 import utils.Scanner;

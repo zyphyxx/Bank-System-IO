@@ -13,8 +13,12 @@ public class Account {
     private Integer accountNumber;
     private BigDecimal balance;
     private String password;
-    private final LocalDateTime dateTime = LocalDateTime.now();
+    private final LocalDateTime dateTime;
     private Boolean accountStatus;
+
+    public Account () {
+        this.dateTime = LocalDateTime.now();
+    }
 
     // GETTER AND SETTERS
     public String getName() {
@@ -68,4 +72,6 @@ public class Account {
     public void setAccountStatus(Boolean accountStatus) {
         this.accountStatus = accountStatus;
     }
+
+
 }
