@@ -13,7 +13,7 @@ public class BankAccountOperationsService implements BankAccountOperations {
     // CONSTRUTOR PRIVADO
     private BankAccountOperationsService(){
        account = new Account();
-       account.setBalance(BigDecimal.ZERO);
+       account.setBalance(new BigDecimal(0));
     }
     // METODO PARA INSTANCIAR
     public static BankAccountOperationsService getInstance(){
@@ -26,18 +26,32 @@ public class BankAccountOperationsService implements BankAccountOperations {
     @Override
     public void deposit(BigDecimal amount) {
         BigDecimal balance = account.getBalance();
+        if (amount.compareTo(BigDecimal.ZERO) < 0){
+            return;
+        }
         account.setBalance(balance.add(amount));
     }
 
     @Override
     public void withdraw(BigDecimal amount) {
         BigDecimal balance = account.getBalance();
-        account.setBalance(balance.subtract(amount));
+        if (balance.compareTo(amount) < 0){
+            return;
+        } else if (amount.compareTo(BigDecimal.ZERO) < 0) {
+            return;
+        }
+            account.setBalance(balance.subtract(amount));
+
     }
 
     @Override
     public void transfer(BigDecimal amount) {
         BigDecimal balance = account.getBalance();
+        if (balance.compareTo(amount) < 0){
+            return;
+        } else if (amount.compareTo(BigDecimal.ZERO) < 0){
+            return;
+        }
         account.setBalance(balance.subtract(amount));
     }
 

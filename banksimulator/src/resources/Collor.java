@@ -1,4 +1,4 @@
-package utils;
+package resources;
 
 public class Collor {
 
