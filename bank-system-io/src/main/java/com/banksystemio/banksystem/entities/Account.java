@@ -5,13 +5,17 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.Data;
+import org.springframework.context.annotation.Bean;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.beans.BeanProperty;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @Entity
+@Data
 public class Account {
 
     // VAR
@@ -35,59 +39,15 @@ public class Account {
 
     public Account () {
         this.dateTime = LocalDateTime.now();
+        this.accountStatus = true;
+        this.balance = BigDecimal.ZERO;
 
     }
-
-    // GETTER AND SETTERS
-    public String getName() {
-        return name;
+    public Account (String name, String email,String password) {
+        this.dateTime = LocalDateTime.now();
+        this.accountStatus = true;
+        this.balance = BigDecimal.ZERO;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public Integer getAccountNumber() {
-        return accountNumber;
-    }
-
-    public void setAccountNumber(Integer accountNumber) {
-        this.accountNumber = accountNumber;
-    }
-
-    public BigDecimal getBalance() {
-        return balance;
-    }
-
-    public void setBalance(BigDecimal balance) {
-        this.balance = balance;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public LocalDateTime getDateTime() {
-        return dateTime;
-    }
-
-    public Boolean getAccountStatus() {
-        return accountStatus;
-    }
-
-    public void setAccountStatus(Boolean accountStatus) {
-        this.accountStatus = accountStatus;
-    }
 }
