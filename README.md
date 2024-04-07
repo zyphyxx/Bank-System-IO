@@ -1,6 +1,6 @@
-# Bank Simulator
+# Bank-System-IO (Bank Simulator)
 
-O Bank Simulator é um aplicativo simulador de banco desenvolvido em Java puro, que permite aos usuários realizar operações bancárias básicas, como criar contas, fazer depósitos, saques e transferências.
+O Bank Simulator é um aplicativo simulador de banco inicialmente desenvolvido em Java puro, que permite aos usuários realizar operações bancárias básicas. Após algum tempo, decidi migrar o projeto para utilizar as funcionalidades do Spring Boot, agora denominado Bank-System-IO, mantendo as mesmas funcionalidades do projeto original.
 
 ## Funcionalidades Principais
 
@@ -15,7 +15,7 @@ O Bank Simulator é um aplicativo simulador de banco desenvolvido em Java puro, 
 
 1. **Clone o Repositório:**
    ```bash
-   git clone https://github.com/seu-usuario/bank-simulator.git
+   git clone git@github.com:zyphyxx/BankSimulator.git
    ```
 
 2. **Compile o Código:**
@@ -26,14 +26,11 @@ O Bank Simulator é um aplicativo simulador de banco desenvolvido em Java puro, 
 3. **Execute o Aplicativo:**
    ```bash
    java BankSimulatorApp
+   java BankSystemIOApp
    ```
 
 ## Contribuição
 
-Contribuições são bem-vindas! Se você quiser melhorar o Bank Simulator, sinta-se à vontade para abrir um pull request.
-
-## Licença
-
-Este projeto está licenciado sob a [MIT License](https://opensource.org/licenses/MIT).
+Contribuições são bem-vindas! Se você quiser melhorar o Bank Simulator ou o Bank System IO, sinta-se à vontade para abrir um pull request.
 
 ---
