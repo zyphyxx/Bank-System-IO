@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.Optional;
 
 @Service
 public class OperationService {
@@ -13,34 +14,50 @@ public class OperationService {
     @Autowired
     private AccountRepository accountRepository;
 
+    @Autowired
+    private AccountService accountService;
 
-    private Account account;
+    public void deposit(Long id, BigDecimal amount) {
+        Optional<Account> acc = accountService.findAccountById(id);
 
-    public void deposit(BigDecimal amount) {
-        BigDecimal balance = account.getBalance();
-        if (amount.compareTo(BigDecimal.ZERO) < 0) {
-            return;
+        if (acc.isPresent()) {
+            if (amount.compareTo(BigDecimal.ZERO) < 0) {
+                return;
+            }
+            acc.get().setBalance(acc.get().getBalance().add(amount));
+            accountRepository.save(acc.get());
+        } else {
+            System.out.println("Usuario não existe");
         }
-        account.setBalance(balance.add(amount));
-
-        accountRepository.save(account);
-
     }
 
-    public void withdraw(BigDecimal amount) {
-        BigDecimal balance = account.getBalance();
-        if (balance.compareTo(amount) < 0) {
-            return;
-        } else if (amount.compareTo(BigDecimal.ZERO) < 0) {
-            return;
-        }
-        account.setBalance(balance.subtract(amount));
+    public void withdraw(Long id, BigDecimal amount) {
 
-        accountRepository.save(account);
+        Optional<Account> acc = accountService.findAccountById(id);
+
+        if (acc.isPresent()) {
+            BigDecimal balance = acc.get().getBalance();
+
+            if (balance.compareTo(amount) < 0) {
+                acc.get().getBalance();
+            } else if (amount.compareTo(BigDecimal.ZERO) < 0) {
+                acc.get().getBalance();
+            } else {
+
+                acc.get().setBalance(balance.subtract(amount));
+                accountRepository.save(acc.get());
+            }
+
+        } else {
+            System.out.println("Usuario não existe");
+        }
+
+
     }
 
 
     public void transfer(BigDecimal amount) {
+        Account account = null;
         BigDecimal balance = account.getBalance();
         if (balance.compareTo(amount) < 0) {
             return;
@@ -54,6 +71,7 @@ public class OperationService {
 
 
     public BigDecimal balance() {
+        Account account = null;
         return account.getBalance();
     }
 }
