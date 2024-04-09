@@ -70,8 +70,8 @@ public class OperationService {
     }
 
 
-    public BigDecimal balance() {
-        Account account = null;
-        return account.getBalance();
+    public BigDecimal balance(Long id) {
+       Optional<Account> account = accountRepository.findById(id);
+            return account.get().getBalance();
     }
 }

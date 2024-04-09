@@ -23,8 +23,10 @@ public class OperationController {
         operationService.withdraw(id,amount);
     }
 
-
-
+    @GetMapping("/balance/{id}")
+    public BigDecimal balance(@PathVariable Long id) {
+        return operationService.balance(id);
+    }
 
 
 
