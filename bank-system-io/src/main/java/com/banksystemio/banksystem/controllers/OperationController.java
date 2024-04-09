@@ -23,9 +23,18 @@ public class OperationController {
         operationService.withdraw(id,amount);
     }
 
+    @GetMapping("/balance/{id}")
+    public BigDecimal balance(@PathVariable Long id) {
+        return operationService.balance(id);
+    }
 
+    // refazer
+    @PutMapping("transfer/{originID}")
+    public void transfer(@PathVariable Long originID, @RequestBody Long recipientID,
+                         @RequestBody BigDecimal amount,@RequestBody String passwordFalse) {
 
-
+        operationService.transfer(originID,recipientID,amount,passwordFalse);
+    }
 
 
 }
