@@ -57,21 +57,13 @@ public class OperationService {
 
 
     public void transfer(BigDecimal amount) {
-        Account account = null;
-        BigDecimal balance = account.getBalance();
-        if (balance.compareTo(amount) < 0) {
-            return;
-        } else if (amount.compareTo(BigDecimal.ZERO) < 0) {
-            return;
-        }
-        account.setBalance(balance.subtract(amount));
 
-        accountRepository.save(account);
     }
 
 
     public BigDecimal balance(Long id) {
-       Optional<Account> account = accountRepository.findById(id);
-            return account.get().getBalance();
+
+        Optional<Account> account = accountRepository.findById(id);
+        return account.get().getBalance();
     }
 }
