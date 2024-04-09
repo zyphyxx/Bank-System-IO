@@ -28,6 +28,13 @@ public class OperationController {
         return operationService.balance(id);
     }
 
+    // refazer
+    @PutMapping("transfer/{originID}")
+    public void transfer(@PathVariable Long originID, @RequestBody Long recipientID,
+                         @RequestBody BigDecimal amount,@RequestBody String passwordFalse) {
+
+        operationService.transfer(originID,recipientID,amount,passwordFalse);
+    }
 
 
 }
