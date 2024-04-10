@@ -1,5 +1,6 @@
 package com.banksystemio.banksystem.controllers;
 
+import com.banksystemio.banksystem.entities.TransferRequest;
 import com.banksystemio.banksystem.services.OperationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -30,10 +31,12 @@ public class OperationController {
 
     // refazer
     @PutMapping("transfer/{originID}")
-    public void transfer(@PathVariable Long originID, @RequestBody Long recipientID,
-                         @RequestBody BigDecimal amount,@RequestBody String passwordFalse) {
-
-        operationService.transfer(originID,recipientID,amount,passwordFalse);
+    public void transfer(@RequestBody TransferRequest transferRequest) {
+        operationService.transfer(
+                transferRequest.getOriginID(),
+                transferRequest.getRecipientID(),
+                transferRequest.getAmount(),
+                transferRequest.getPasswordFalse());
     }
 
 
