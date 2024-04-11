@@ -24,8 +24,8 @@ public class AccountService {
     }
 
     @Transactional
-    public void createAccount(Account account) {
-        accountRepository.save(account);
+    public Account createAccount(Account account) {
+        return accountRepository.save(account);
 
     }
     @Transactional
