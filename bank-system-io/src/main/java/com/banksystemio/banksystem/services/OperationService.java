@@ -18,6 +18,7 @@ public class OperationService {
     @Autowired
     private AccountService accountService;
 
+    @Transactional
     public void deposit(Long id, BigDecimal amount) {
         Optional<Account> acc = accountService.findAccountById(id);
 
@@ -59,7 +60,7 @@ public class OperationService {
     @Transactional
     public void transfer(Long originID, Long recipientID,
                          BigDecimal amount, String passwordFalse) {
-        // accounts
+
         Optional<Account> originAcc = accountRepository.findById(originID);
         Optional<Account> recipientAcc = accountRepository.findById(recipientID);
 

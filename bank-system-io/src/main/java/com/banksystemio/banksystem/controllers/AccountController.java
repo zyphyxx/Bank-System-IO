@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/account")
+@RequestMapping("bankio/account")
 public class AccountController {
 
 
