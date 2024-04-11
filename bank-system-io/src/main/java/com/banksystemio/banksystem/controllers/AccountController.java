@@ -4,13 +4,16 @@ import com.banksystemio.banksystem.entities.Account;
 
 import com.banksystemio.banksystem.services.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/account")
+@RequestMapping("bankio/account")
 public class AccountController {
 
 
@@ -18,26 +21,33 @@ public class AccountController {
     private AccountService accountService;
 
     @GetMapping
-    public List<Account> findAllAccounts(){
-       return accountService.findAllAccounts();
+    public ResponseEntity<List<Account>> findAllAccounts(){
+       return ResponseEntity.ok().body(accountService.findAllAccounts());
     }
     @GetMapping("/{id}")
-    public Optional<Account> findAccountById (@PathVariable Long id) {
-       return accountService.findAccountById(id);
+    public ResponseEntity<Optional<Account>> findAccountById (@PathVariable Long id) {
+       return ResponseEntity.ok().body(accountService.findAccountById(id));
     }
 
     @PostMapping
-    public void createAccount (@RequestBody Account account){
-        accountService.createAccount(account);
+    public ResponseEntity<Account> createAccount (@RequestBody Account account){
+        Account newAccount = accountService.createAccount(account);
+
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+                .buildAndExpand(newAccount.getId()).toUri();
+
+        return ResponseEntity.created(uri).body(newAccount);
     }
 
     @PutMapping
-    public void updateAccount(@RequestBody Account account) {
+    public ResponseEntity<Void> updateAccount(@RequestBody Account account) {
         accountService.updateAccount(account);
+        return ResponseEntity.noContent().build();
     }
     @DeleteMapping("/{id}")
-    public void deleteAccount (@PathVariable Long id){
+    public ResponseEntity<Void> deleteAccount (@PathVariable Long id){
         accountService.deleteAccount(id);
+        return ResponseEntity.noContent().build();
     }
 
 }
