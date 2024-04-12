@@ -25,6 +25,14 @@ public class AccountService {
 
     @Transactional
     public Account createAccount(Account account) {
+        if ((account.getName() == null) ||
+                (account.getPassword() == null ) ||
+                (account.getAccountNumber() == null) ||
+                (account.getEmail() == null)) {
+
+            System.out.println("A conta não pode esta com nome, senha, e email e conta vazia");
+            return null;
+        }
         return accountRepository.save(account);
 
     }

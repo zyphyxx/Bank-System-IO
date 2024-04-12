@@ -31,10 +31,16 @@ public class AccountController {
 
     @PostMapping
     public ResponseEntity<Account> createAccount (@RequestBody Account account){
+
+        if (account == null){
+            return ResponseEntity.badRequest().body(account);
+        }
+
         Account newAccount = accountService.createAccount(account);
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(newAccount.getId()).toUri();
+
 
         return ResponseEntity.created(uri).body(newAccount);
     }
