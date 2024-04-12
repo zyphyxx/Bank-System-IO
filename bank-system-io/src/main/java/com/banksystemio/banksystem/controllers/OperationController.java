@@ -1,5 +1,6 @@
 package com.banksystemio.banksystem.controllers;
 
+import com.banksystemio.banksystem.entities.DepositRequest;
 import com.banksystemio.banksystem.entities.TransferRequest;
 import com.banksystemio.banksystem.services.OperationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +16,10 @@ public class OperationController {
     @Autowired
     private OperationService operationService;
 
-    @PutMapping("/deposit/{id}")
-    public ResponseEntity<Void> deposit(@PathVariable Long id, @RequestBody BigDecimal amount) {
+    @PutMapping("/deposit")
+    public ResponseEntity<Void> deposit(@RequestBody DepositRequest depositRequest) {
 
-        operationService.deposit(id, amount);
+        operationService.deposit(depositRequest.getId(),depositRequest.getAmount());
 
         return ResponseEntity.noContent().build();
     }
