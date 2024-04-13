@@ -16,6 +16,9 @@ public class OperationService {
     private AccountRepository accountRepository;
 
     @Autowired
+    DepositRequestService depositRequestService;
+
+    @Autowired
     private AccountService accountService;
 
     @Transactional
@@ -26,12 +29,17 @@ public class OperationService {
             if (amount.compareTo(BigDecimal.ZERO) < 0) {
                 return;
             }
+
             acc.get().setBalance(acc.get().getBalance().add(amount));
             accountRepository.save(acc.get());
+            depositRequestService.depositAmount(amount,acc.get());
+
+
         } else {
             System.out.println("Usuario não existe");
         }
     }
+
     @Transactional
     public void withdraw(Long id, BigDecimal amount) {
 

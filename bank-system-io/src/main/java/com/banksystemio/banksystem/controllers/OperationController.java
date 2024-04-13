@@ -1,7 +1,7 @@
 package com.banksystemio.banksystem.controllers;
 
 import com.banksystemio.banksystem.entities.DepositRequest;
-import com.banksystemio.banksystem.entities.TransferRequest;
+import com.banksystemio.banksystem.dto.TransferRequest;
 import com.banksystemio.banksystem.services.OperationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
