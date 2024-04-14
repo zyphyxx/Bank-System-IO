@@ -22,6 +22,8 @@ public class OperationService {
 
     @Autowired
     private WithdrawRequestService withdrawRequestService;
+    @Autowired
+    TransferRequestService transferRequestService;
 
     @Transactional
     public void deposit(Long id, BigDecimal amount) {
@@ -89,6 +91,9 @@ public class OperationService {
 
                         accountRepository.save(originAcc.get());
                         accountRepository.save(recipientAcc.get());
+
+                        transferRequestService.transferAmount(amount,originID,recipientID);
+
                     }
 
                 }

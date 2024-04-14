@@ -29,12 +29,14 @@ public class TransferRequestService {
         transferRequest.setAmount(amount);
         transferRequest.setOriginName(origin.get().getName());
         transferRequest.setDestinyName(destiny.get().getName());
+        transferRequest.setRecipientID(destinyID);
+        transferRequest.setOriginID(originID);
+        transferRequest.setAccount(origin.get());
+
+
 
         transferRequestRepository.save(transferRequest);
 
     }
 
-    public List<TransferRequest> transferRequestList () {
-        return transferRequestRepository.findAll();
-    }
 }

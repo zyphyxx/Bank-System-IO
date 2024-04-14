@@ -2,11 +2,8 @@ package com.banksystemio.banksystem.entities;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
@@ -18,6 +15,7 @@ import java.time.LocalTime;
 public class TransferRequest {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private BigDecimal amount;
@@ -30,7 +28,13 @@ public class TransferRequest {
 
     private String originName;
 
+    private Long originID;
+
     private String destinyName;
+
+    private Long recipientID;
+
+    private String passwordFalse;
 
     @ManyToOne
     @JsonIgnore
