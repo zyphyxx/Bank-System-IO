@@ -1,6 +1,5 @@
 package com.banksystemio.banksystem.services;
 
-import com.banksystemio.banksystem.dto.TransferRequest;
 import com.banksystemio.banksystem.entities.Account;
 import com.banksystemio.banksystem.entities.DepositRequest;
 import com.banksystemio.banksystem.repositories.DepositRequestRepository;

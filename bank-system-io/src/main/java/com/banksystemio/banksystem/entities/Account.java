@@ -1,15 +1,11 @@
 package com.banksystemio.banksystem.entities;
 
-import com.banksystemio.banksystem.utils.DateTimeUtils;
 import jakarta.persistence.*;
 import lombok.Data;
-import org.springframework.context.annotation.Bean;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.beans.BeanProperty;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,6 +37,9 @@ public class Account {
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     private List<WithdrawRequest> withdrawRequests = new ArrayList<>();
+
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    private List<TransferRequest> transferRequests = new ArrayList<>();
 
     public Account () {
         this.dateTime = LocalDateTime.now();
