@@ -2,6 +2,7 @@ package com.banksystemio.banksystem.controllers;
 
 import com.banksystemio.banksystem.entities.DepositRequest;
 import com.banksystemio.banksystem.dto.TransferRequest;
+import com.banksystemio.banksystem.entities.WithdrawRequest;
 import com.banksystemio.banksystem.services.OperationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,10 +25,10 @@ public class OperationController {
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/withdraw/{id}")
-    public ResponseEntity<Void> withdraw(@PathVariable Long id, @RequestBody BigDecimal amount) {
+    @PutMapping("/withdraw")
+    public ResponseEntity<Void> withdraw(@RequestBody WithdrawRequest withdrawRequest) {
 
-        operationService.withdraw(id, amount);
+        operationService.withdraw(withdrawRequest.getId(), withdrawRequest.getAmount());
 
         return ResponseEntity.noContent().build();
     }

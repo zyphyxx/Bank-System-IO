@@ -14,12 +14,14 @@ public class OperationService {
 
     @Autowired
     private AccountRepository accountRepository;
-
-    @Autowired
-    DepositRequestService depositRequestService;
-
     @Autowired
     private AccountService accountService;
+
+    @Autowired
+    private DepositRequestService depositRequestService;
+
+    @Autowired
+    private WithdrawRequestService withdrawRequestService;
 
     @Transactional
     public void deposit(Long id, BigDecimal amount) {
@@ -56,6 +58,7 @@ public class OperationService {
 
                 acc.get().setBalance(balance.subtract(amount));
                 accountRepository.save(acc.get());
+                withdrawRequestService.withdrawAmount(amount, acc.get().getId());
             }
 
         } else {
