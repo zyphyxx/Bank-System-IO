@@ -39,6 +39,9 @@ public class Account {
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     private List<DepositRequest> depositRequests = new ArrayList<>();
 
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    private List<WithdrawRequest> withdrawRequests = new ArrayList<>();
+
     public Account () {
         this.dateTime = LocalDateTime.now();
         this.accountStatus = true;
