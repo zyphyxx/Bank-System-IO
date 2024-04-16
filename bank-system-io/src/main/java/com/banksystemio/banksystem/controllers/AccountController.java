@@ -1,5 +1,8 @@
 package com.banksystemio.banksystem.controllers;
 
+import com.banksystemio.banksystem.dto.mapper.AccountMapper;
+import com.banksystemio.banksystem.dto.request.AccountRequest;
+import com.banksystemio.banksystem.dto.response.AccountResponse;
 import com.banksystemio.banksystem.entities.Account;
 
 import com.banksystemio.banksystem.services.AccountService;
@@ -30,19 +33,17 @@ public class AccountController {
     }
 
     @PostMapping
-    public ResponseEntity<Account> createAccount (@RequestBody Account account){
+    public ResponseEntity<AccountResponse> createAccount (@RequestBody AccountRequest request){
 
-        if (account == null){
-            return ResponseEntity.badRequest().body(account);
-        }
+        Account account = AccountMapper.toAccount(request);
 
-        Account newAccount = accountService.createAccount(account);
+        AccountResponse accountResponse = AccountMapper.toAccountResponse(account);
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-                .buildAndExpand(newAccount.getId()).toUri();
+                .buildAndExpand(account.getId()).toUri();
 
-
-        return ResponseEntity.created(uri).body(newAccount);
+        accountService.createAccount(account);
+        return ResponseEntity.created(uri).body(accountResponse);
     }
 
     @PutMapping
