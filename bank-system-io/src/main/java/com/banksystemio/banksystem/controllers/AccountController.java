@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,12 +25,20 @@ public class AccountController {
     private AccountService accountService;
 
     @GetMapping
-    public ResponseEntity<List<Account>> findAllAccounts(){
-       return ResponseEntity.ok().body(accountService.findAllAccounts());
+    public ResponseEntity<List<AccountResponse>> findAllAccounts(){
+
+        List<AccountResponse> tolist = AccountMapper.toList(accountService.findAllAccounts());
+
+        return ResponseEntity.ok().body(tolist);
     }
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<Account>> findAccountById (@PathVariable Long id) {
-       return ResponseEntity.ok().body(accountService.findAccountById(id));
+    public ResponseEntity<AccountResponse> findAccountById (@PathVariable Long id) {
+
+        accountService.findAccountById(id);
+
+        AccountResponse accountResponse = AccountMapper.toAccountResponse(accountService.findAccountById(id).get());
+
+        return ResponseEntity.ok().body(accountResponse);
     }
 
     @PostMapping

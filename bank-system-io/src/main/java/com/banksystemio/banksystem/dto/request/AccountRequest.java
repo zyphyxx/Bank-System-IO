@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AccountRequest {
 
+    private Long id;
+
     private String name;
 
     private String email;

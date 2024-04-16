@@ -8,11 +8,10 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.List;
 
 @Entity
 @Data
-public class WithdrawRequest {
+public class Withdraw {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,7 +29,7 @@ public class WithdrawRequest {
     @JsonIgnore
     private Account account;
 
-    public WithdrawRequest(){
+    public Withdraw(){
         withdrawDate = LocalDate.now();
         withdrawTime = LocalTime.now();
     }

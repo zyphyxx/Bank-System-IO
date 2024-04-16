@@ -1,21 +1,20 @@
 package com.banksystemio.banksystem.services;
 
 import com.banksystemio.banksystem.entities.Account;
-import com.banksystemio.banksystem.entities.TransferRequest;
-import com.banksystemio.banksystem.repositories.TransferRequestRepository;
+import com.banksystemio.banksystem.entities.Transfer;
+import com.banksystemio.banksystem.repositories.TransferRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.List;
 import java.util.Optional;
 
 @Service
-public class TransferRequestService {
+public class TransferService {
 
     @Autowired
-    private TransferRequestRepository transferRequestRepository;
+    private TransferRepository transferRequestRepository;
     @Autowired
     private AccountService accountService;
 
@@ -24,7 +23,7 @@ public class TransferRequestService {
 
         Optional<Account> origin = accountService.findAccountById(originID);
         Optional<Account> destiny = accountService.findAccountById(destinyID);
-        TransferRequest transferRequest = new TransferRequest();
+        Transfer transferRequest = new Transfer();
 
         transferRequest.setAmount(amount);
         transferRequest.setOriginName(origin.get().getName());

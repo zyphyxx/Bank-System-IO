@@ -14,16 +14,17 @@ public class OperationService {
 
     @Autowired
     private AccountRepository accountRepository;
+
     @Autowired
     private AccountService accountService;
 
     @Autowired
-    private DepositRequestService depositRequestService;
+    private DepositService depositRequestService;
 
     @Autowired
-    private WithdrawRequestService withdrawRequestService;
+    private WithdrawService withdrawRequestService;
     @Autowired
-    TransferRequestService transferRequestService;
+    TransferService transferRequestService;
 
     @Transactional
     public void deposit(Long id, BigDecimal amount) {
@@ -36,7 +37,7 @@ public class OperationService {
 
             acc.get().setBalance(acc.get().getBalance().add(amount));
             accountRepository.save(acc.get());
-            depositRequestService.depositAmount(amount,acc.get());
+            depositRequestService.depositAmount(amount, acc.get());
 
 
         } else {
@@ -92,7 +93,7 @@ public class OperationService {
                         accountRepository.save(originAcc.get());
                         accountRepository.save(recipientAcc.get());
 
-                        transferRequestService.transferAmount(amount,originID,recipientID);
+                        transferRequestService.transferAmount(amount, originID, recipientID);
 
                     }
 

@@ -1,26 +1,24 @@
 package com.banksystemio.banksystem.services;
 
 import com.banksystemio.banksystem.entities.Account;
-import com.banksystemio.banksystem.entities.WithdrawRequest;
-import com.banksystemio.banksystem.repositories.WithdrawRequestRepository;
+import com.banksystemio.banksystem.entities.Withdraw;
+import com.banksystemio.banksystem.repositories.WithdrawRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @Service
-public class WithdrawRequestService {
+public class WithdrawService {
 
     @Autowired
-    private WithdrawRequestRepository withdrawRequestRepository;
+    private WithdrawRepository withdrawRequestRepository;
     @Autowired
     private AccountService accountService;
 
     public void withdrawAmount (BigDecimal amount,Long id) {
-        WithdrawRequest withdrawRequest = new WithdrawRequest();
+        Withdraw withdrawRequest = new Withdraw();
 
         Optional<Account> account = accountService.findAccountById(id);
 
