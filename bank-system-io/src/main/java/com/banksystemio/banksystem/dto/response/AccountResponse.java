@@ -12,6 +12,8 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class AccountResponse {
 
+    private Long id;
+
     private String name;
 
     private String email;

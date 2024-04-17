@@ -13,7 +13,7 @@ import java.util.List;
 @Data
 public class Account {
 
-    // VAR
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -33,24 +33,18 @@ public class Account {
     private Boolean accountStatus;
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
-    private List<DepositRequest> depositRequests = new ArrayList<>();
+    private List<Deposit> depositRequests = new ArrayList<>();
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
-    private List<WithdrawRequest> withdrawRequests = new ArrayList<>();
+    private List<Withdraw> withdrawRequests = new ArrayList<>();
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
-    private List<TransferRequest> transferRequests = new ArrayList<>();
+    private List<Transfer> transferRequests = new ArrayList<>();
 
     public Account () {
         this.dateTime = LocalDateTime.now();
         this.accountStatus = true;
         this.balance = BigDecimal.ZERO;
     }
-    public Account (String name, String email,String password) {
-        this.dateTime = LocalDateTime.now();
-        this.accountStatus = true;
-        this.balance = BigDecimal.ZERO;
-    }
-
 
 }

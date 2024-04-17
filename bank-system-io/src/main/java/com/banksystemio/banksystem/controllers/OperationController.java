@@ -1,8 +1,10 @@
 package com.banksystemio.banksystem.controllers;
 
-import com.banksystemio.banksystem.entities.DepositRequest;
-import com.banksystemio.banksystem.entities.TransferRequest;
-import com.banksystemio.banksystem.entities.WithdrawRequest;
+import com.banksystemio.banksystem.entities.Deposit;
+import com.banksystemio.banksystem.entities.Transfer;
+
+import com.banksystemio.banksystem.entities.Withdraw;
+
 import com.banksystemio.banksystem.services.OperationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +20,7 @@ public class OperationController {
     private OperationService operationService;
 
     @PutMapping("/deposit")
-    public ResponseEntity<Void> deposit(@RequestBody DepositRequest depositRequest) {
+    public ResponseEntity<Void> deposit(@RequestBody Deposit depositRequest) {
 
         operationService.deposit(depositRequest.getId(), depositRequest.getAmount());
 
@@ -26,7 +28,7 @@ public class OperationController {
     }
 
     @PutMapping("/withdraw")
-    public ResponseEntity<Void> withdraw(@RequestBody WithdrawRequest withdrawRequest) {
+    public ResponseEntity<Void> withdraw(@RequestBody Withdraw withdrawRequest) {
 
         operationService.withdraw(withdrawRequest.getId(), withdrawRequest.getAmount());
 
@@ -39,7 +41,7 @@ public class OperationController {
     }
 
     @PutMapping("transfer")
-    public ResponseEntity<Void> transfer(@RequestBody TransferRequest transferRequest) {
+    public ResponseEntity<Void> transfer(@RequestBody Transfer transferRequest) {
 
         operationService.transfer(
                 transferRequest.getOriginID(),
