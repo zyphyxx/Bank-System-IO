@@ -26,6 +26,7 @@ public class OperationService {
     @Autowired
     TransferService transferRequestService;
 
+    /*
     @Transactional
     public void deposit(Long id, BigDecimal amount) {
         Optional<Account> acc = accountService.findAccountById(id);
@@ -45,6 +46,8 @@ public class OperationService {
         }
     }
 
+
+     */
     @Transactional
     public void withdraw(Long id, BigDecimal amount) {
 
