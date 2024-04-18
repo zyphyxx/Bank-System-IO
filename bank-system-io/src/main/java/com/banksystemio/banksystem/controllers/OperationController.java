@@ -19,6 +19,7 @@ public class OperationController {
     @Autowired
     private OperationService operationService;
 
+    /*
     @PutMapping("/deposit")
     public ResponseEntity<Void> deposit(@RequestBody Deposit depositRequest) {
 
@@ -27,6 +28,8 @@ public class OperationController {
         return ResponseEntity.noContent().build();
     }
 
+
+
     @PutMapping("/withdraw")
     public ResponseEntity<Void> withdraw(@RequestBody Withdraw withdrawRequest) {
 
@@ -34,6 +37,8 @@ public class OperationController {
 
         return ResponseEntity.noContent().build();
     }
+
+     */
 
     @GetMapping("/balance/{id}")
     public ResponseEntity<BigDecimal> balance(@PathVariable Long id) {

@@ -9,25 +9,54 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class DepositService {
 
     @Autowired
-    private DepositRepository depositRequestRepository;
+    private DepositRepository depositRepository;
+    @Autowired
+    private AccountService accountService;
 
 
-
-    public List<Deposit> findAllDeposits () {
-        return depositRequestRepository.findAll();
+    public List<Deposit> findAllDeposits() {
+        return depositRepository.findAll();
     }
 
     @Transactional
-    public void depositAmount (BigDecimal amount,Account account){
-       Deposit depositRequest = new Deposit();
-       depositRequest.setAmount(amount);
-       depositRequest.setAccount(account);
-       depositRequestRepository.save(depositRequest);
+    public void depositAmount(BigDecimal amount, Long id) {
+
+        if (amount == null) {
+            System.out.println("valor nulo");
+
+        } else if (amount.compareTo(BigDecimal.ZERO) < 0) {
+            System.out.println("valor Negativo");
+
+        } else {
+
+            Optional<Account> account = accountService.findAccountById(id);
+
+            if (account.isPresent()) {
+
+                Deposit deposit = new Deposit();
+                BigDecimal balance = account.get().getBalance();
+
+                try {
+                    account.get().setBalance(balance.add(amount));
+
+                    deposit.setAmount(amount);
+                    deposit.setAccount(account.get());
+                    depositRepository.save(deposit);
+
+                } catch (Exception e) {
+                    System.out.println("erro ao depositar: " + e);
+                }
+
+
+            }
+        }
+
 
     }
 }
