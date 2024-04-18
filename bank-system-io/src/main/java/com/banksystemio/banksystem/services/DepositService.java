@@ -20,7 +20,6 @@ public class DepositService {
     private AccountService accountService;
 
 
-
     public List<Deposit> findAllDeposits() {
         return depositRepository.findAll();
     }
@@ -28,18 +27,35 @@ public class DepositService {
     @Transactional
     public void depositAmount(BigDecimal amount, Long id) {
 
-        Optional<Account> account = accountService.findAccountById(id);
+        if (amount == null) {
+            System.out.println("valor nulo");
 
-        account.get();
-        BigDecimal balance = account.get().getBalance();
+        } else if (amount.compareTo(BigDecimal.ZERO) < 0) {
+            System.out.println("valor Negativo");
 
-        account.get().setBalance(balance.add(amount));
+        } else {
 
-        Deposit deposit = new Deposit();
-        deposit.setAmount(amount);
-        deposit.setAccount(account.get());
+            Optional<Account> account = accountService.findAccountById(id);
 
-        depositRepository.save(deposit);
+            if (account.isPresent()) {
+
+                Deposit deposit = new Deposit();
+                BigDecimal balance = account.get().getBalance();
+
+                try {
+                    account.get().setBalance(balance.add(amount));
+
+                    deposit.setAmount(amount);
+                    deposit.setAccount(account.get());
+                    depositRepository.save(deposit);
+
+                } catch (Exception e) {
+                    System.out.println("erro ao depositar: " + e);
+                }
+
+
+            }
+        }
 
 
     }
