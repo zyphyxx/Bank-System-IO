@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.math.BigDecimal;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,14 +25,14 @@ public class AccountController {
     @Autowired
     private AccountService accountService;
 
-    @GetMapping
+    @GetMapping("/find/all")
     public ResponseEntity<List<AccountResponse>> findAllAccounts(){
 
         List<AccountResponse> tolist = AccountMapper.toList(accountService.findAllAccounts());
 
         return ResponseEntity.ok().body(tolist);
     }
-    @GetMapping("/{id}")
+    @GetMapping("/find/{id}")
     public ResponseEntity<AccountResponse> findAccountById (@PathVariable Long id) {
 
         accountService.findAccountById(id);
@@ -41,7 +42,7 @@ public class AccountController {
         return ResponseEntity.ok().body(accountResponse);
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<AccountResponse> createAccount (@RequestBody AccountRequest request){
 
         Account account = AccountMapper.toAccount(request);
@@ -55,15 +56,19 @@ public class AccountController {
         return ResponseEntity.created(uri).body(accountResponse);
     }
 
-    @PutMapping
+    @PutMapping("/update")
     public ResponseEntity<Void> updateAccount(@RequestBody Account account) {
         accountService.updateAccount(account);
         return ResponseEntity.noContent().build();
     }
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteAccount (@PathVariable Long id){
         accountService.deleteAccount(id);
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/balance/{id}")
+    public ResponseEntity<BigDecimal> getBalance (@PathVariable Long id) {
+        return ResponseEntity.ok().body(accountService.getBalance(id));
+    }
 }

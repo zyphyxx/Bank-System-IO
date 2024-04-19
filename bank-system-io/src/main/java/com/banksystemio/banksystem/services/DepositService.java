@@ -31,7 +31,7 @@ public class DepositService {
             throw new RuntimeException("O valor não pode ser nullo");
 
         } else if (amount.compareTo(BigDecimal.ZERO) < 0) {
-            throw new RuntimeException("O valor não pode ser negativo");
+            throw new RuntimeException("O valor não pode ser negativo "+ amount);
 
         } else {
 

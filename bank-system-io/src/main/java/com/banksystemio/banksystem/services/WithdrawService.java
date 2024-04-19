@@ -21,18 +21,17 @@ public class WithdrawService {
 
     @Transactional
     public void withdrawAmount(BigDecimal amount, Long id) {
+
         Withdraw withdrawRequest = new Withdraw();
 
         Optional<Account> account = accountService.findAccountById(id);
         BigDecimal balance = account.get().getBalance();
 
-        if (account.isPresent()) {
-
-            if (balance.compareTo(amount) < 0) {
-                throw new RuntimeException("voce não tem saldo");
-            } else if (balance.compareTo(BigDecimal.ZERO) < 0) {
-                throw new RuntimeException("o valor não pode ser negativo");
-            }
+        if (balance.compareTo(amount) < 0) {
+            throw new RuntimeException("voce não tem saldo R$" + balance);
+        } else if (balance.compareTo(BigDecimal.ZERO) < 0) {
+            throw new RuntimeException("o valor não pode ser negativo "+ amount);
+        } else {
 
             try {
                 account.get().setBalance(balance.subtract(amount));
@@ -45,7 +44,10 @@ public class WithdrawService {
             } catch (Exception e) {
                 throw new RuntimeException(e.getMessage());
             }
+
         }
+
+
 
     }
 

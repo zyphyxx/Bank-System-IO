@@ -31,39 +31,43 @@ public class AccountService {
                 (account.getAccountNumber() == null) ||
                 (account.getEmail() == null)) {
 
-            System.out.println("A conta não pode esta com nome, senha, e email e conta vazia");
-            return;
+           throw new RuntimeException("A conta não pode esta com nome, senha, e email e conta vazia");
         }
         accountRepository.save(account);
 
     }
     @Transactional
     public void updateAccount(Account account) {
-        Long id = account.getId();
-       Optional<Account> obj = findAccountById(id);
+
+        Optional<Account> obj = findAccountById(account.getId());
+
        if (obj.isPresent()){
            account.setName(account.getName());
            account.setEmail(account.getEmail());
            account.setPassword(account.getPassword());
            accountRepository.save(account);
        } else {
-           System.out.println("Usuario não existe");
+           throw new RuntimeException("Usuario não existe: "+ account);
        }
     }
     @Transactional
     public void deleteAccount (Long id){
+
         Optional<Account> obj = findAccountById(id);
+
         if (obj.isPresent()){
             Account account = obj.get();
             account.setAccountStatus(false);
             accountRepository.save(account);
         } else {
-            System.out.println("Usuario não existe");
+            throw new RuntimeException("Usuario não existe");
         }
     }
 
     public BigDecimal getBalance (Long id) {
-        Optional<Account> accountById = findAccountById(id);
-        return accountById.get().getBalance();
+
+        Optional<Account> account = findAccountById(id);
+
+        return account.get().getBalance();
     }
 }
