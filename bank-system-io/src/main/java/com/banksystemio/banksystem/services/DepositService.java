@@ -28,10 +28,10 @@ public class DepositService {
     public void depositAmount(BigDecimal amount, Long id) {
 
         if (amount == null) {
-            System.out.println("valor nulo");
+            throw new RuntimeException("O valor não pode ser nullo");
 
         } else if (amount.compareTo(BigDecimal.ZERO) < 0) {
-            System.out.println("valor Negativo");
+            throw new RuntimeException("O valor não pode ser negativo");
 
         } else {
 
@@ -50,13 +50,10 @@ public class DepositService {
                     depositRepository.save(deposit);
 
                 } catch (Exception e) {
-                    System.out.println("erro ao depositar: " + e);
+                    throw new RuntimeException("Erro ao  fazer o depositar: " + e);
                 }
-
 
             }
         }
-
-
     }
 }
