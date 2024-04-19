@@ -12,12 +12,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 
-@RestController
-@RequestMapping("/bankio/operation")
+
 public class OperationController {
 
-    @Autowired
-    private OperationService operationService;
 
     /*
     @PutMapping("/deposit")
@@ -38,7 +35,7 @@ public class OperationController {
         return ResponseEntity.noContent().build();
     }
 
-     */
+
 
     @GetMapping("/balance/{id}")
     public ResponseEntity<BigDecimal> balance(@PathVariable Long id) {
@@ -56,6 +53,8 @@ public class OperationController {
 
         return ResponseEntity.noContent().build();
     }
+
+     */
 
 
 }

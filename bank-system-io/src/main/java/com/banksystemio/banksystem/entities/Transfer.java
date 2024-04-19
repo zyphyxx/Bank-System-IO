@@ -18,23 +18,17 @@ public class Transfer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private BigDecimal amount;
+    private Long transferId;
+
+    private BigDecimal transferAmount;
+
+    private Long recipientId;
 
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private LocalDate transferDate;
 
     @DateTimeFormat(pattern = "HH:mm")
     private LocalTime transferTime;
-
-    private String originName;
-
-    private Long originID;
-
-    private String destinyName;
-
-    private Long recipientID;
-
-    private String passwordFalse;
 
     @ManyToOne
     @JsonIgnore

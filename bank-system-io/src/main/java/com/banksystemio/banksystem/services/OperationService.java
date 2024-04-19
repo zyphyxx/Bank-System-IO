@@ -47,7 +47,7 @@ public class OperationService {
     }
 
 
-     */
+
     @Transactional
     public void withdraw(Long id, BigDecimal amount) {
 
@@ -55,6 +55,8 @@ public class OperationService {
 
         if (acc.isPresent()) {
             BigDecimal balance = acc.get().getBalance();
+
+
 
             if (balance.compareTo(amount) < 0) {
                 acc.get().getBalance();
@@ -115,4 +117,6 @@ public class OperationService {
         Optional<Account> account = accountRepository.findById(id);
         return account.get().getBalance();
     }
+
+     */
 }

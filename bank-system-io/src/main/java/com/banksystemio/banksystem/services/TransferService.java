@@ -8,34 +8,52 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Optional;
 
 @Service
 public class TransferService {
 
     @Autowired
-    private TransferRepository transferRequestRepository;
+    private TransferRepository transferRepository;
     @Autowired
     private AccountService accountService;
 
     @Transactional
-    public void transferAmount (BigDecimal amount,Long originID,Long destinyID) {
+    public void transferAmount(Long transferId,
+                               BigDecimal transferAmount,
+                               Long recipientId,
+                               String transferPassword) {
 
-        Optional<Account> origin = accountService.findAccountById(originID);
-        Optional<Account> destiny = accountService.findAccountById(destinyID);
-        Transfer transferRequest = new Transfer();
+        try {
 
-        transferRequest.setAmount(amount);
-        transferRequest.setOriginName(origin.get().getName());
-        transferRequest.setDestinyName(destiny.get().getName());
-        transferRequest.setRecipientID(destinyID);
-        transferRequest.setOriginID(originID);
-        transferRequest.setAccount(origin.get());
+            Optional<Account> remetente = accountService.findAccountById(transferId);
+            Optional<Account> destinatario = accountService.findAccountById(recipientId);
+
+            BigDecimal remetenteBalance = remetente.get().getBalance();
+            remetente.get().setBalance(remetenteBalance.subtract(transferAmount));
+
+            BigDecimal destinatarioBalance = destinatario.get().getBalance();
+            destinatario.get().setBalance(destinatarioBalance.add(transferAmount));
+
+            accountService.updateAccount(remetente.get());
+            accountService.updateAccount(destinatario.get());
+
+            Transfer transfer = new Transfer();
+            transfer.setTransferId(remetente.get().getId());
+            transfer.setTransferAmount(transferAmount);
+            transfer.setRecipientId(destinatario.get().getId());
+            transferRepository.save(transfer);
 
 
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e.getCause());
+        }
 
-        transferRequestRepository.save(transferRequest);
+    }
 
+    public List<Transfer> findAllTransfer (){
+       return transferRepository.findAll();
     }
 
 }
