@@ -27,10 +27,11 @@ public class Account {
     private BigDecimal balance;
 
     private String password;
-    @DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
-    private final LocalDateTime dateTime;
 
     private Boolean accountStatus;
+
+    @DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
+    private final LocalDateTime dateTime;
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     private List<Deposit> depositRequests = new ArrayList<>();
