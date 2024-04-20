@@ -8,6 +8,7 @@
         <version>3.2.4</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
+
     <groupId>com.bank-system-io</groupId>
     <artifactId>bank-system</artifactId>
     <version>0.0.1-SNAPSHOT</version>
@@ -54,7 +55,7 @@
         <dependency>
             <groupId>org.hibernate.validator</groupId>
             <artifactId>hibernate-validator</artifactId>
-            <version>6.2.0.Final</version>
+            <version>8.0.1.Final</version>
         </dependency>
     </dependencies>
 
