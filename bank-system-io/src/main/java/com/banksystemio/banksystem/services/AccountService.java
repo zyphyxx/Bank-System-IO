@@ -1,6 +1,7 @@
 package com.banksystemio.banksystem.services;
 
 import com.banksystemio.banksystem.entities.Account;
+import com.banksystemio.banksystem.enums.Status;
 import com.banksystemio.banksystem.repositories.AccountRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,7 +58,7 @@ public class AccountService {
 
         if (obj.isPresent()){
             Account account = obj.get();
-            account.setAccountStatus(false);
+            account.setAccountStatus(Status.INACTIVE);
             accountRepository.save(account);
         } else {
             throw new RuntimeException("Usuario não existe");

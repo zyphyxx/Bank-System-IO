@@ -3,6 +3,7 @@ package com.banksystemio.banksystem.dto.mapper;
 import com.banksystemio.banksystem.dto.request.AccountRequest;
 import com.banksystemio.banksystem.dto.response.AccountResponse;
 import com.banksystemio.banksystem.entities.Account;
+import com.banksystemio.banksystem.enums.Status;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -32,7 +33,7 @@ public class AccountMapper {
         account.setName(response.getName());
         account.setEmail(response.getEmail());
         account.setAccountNumber(response.getAccountNumber());
-        account.setAccountStatus(response.getAccountStatus());
+        account.setAccountStatus(Status.ACTIVE);
 
         return account;
     }

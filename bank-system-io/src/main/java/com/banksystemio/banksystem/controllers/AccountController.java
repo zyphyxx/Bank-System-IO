@@ -6,8 +6,10 @@ import com.banksystemio.banksystem.dto.response.AccountResponse;
 import com.banksystemio.banksystem.entities.Account;
 
 import com.banksystemio.banksystem.services.AccountService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -18,6 +20,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@Validated
 @RequestMapping("bankio/account")
 public class AccountController {
 
@@ -43,7 +46,7 @@ public class AccountController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<AccountResponse> createAccount (@RequestBody AccountRequest request){
+    public ResponseEntity<AccountResponse> createAccount (@Valid @RequestBody AccountRequest request){
 
         Account account = AccountMapper.toAccount(request);
 
