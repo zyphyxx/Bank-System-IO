@@ -2,13 +2,13 @@ package com.banksystemio.banksystem.services;
 
 import com.banksystemio.banksystem.entities.Account;
 import com.banksystemio.banksystem.enums.Status;
+import com.banksystemio.banksystem.exceptions.accountExceptions.AccountNoSuchElementException;
 import com.banksystemio.banksystem.repositories.AccountRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,29 +23,20 @@ public class AccountService {
     }
 
     public Optional<Account> findAccountById(Long id) {
-
         return accountRepository.findById(id);
     }
 
 
     @Transactional
     public void createAccount(Account account) {
-        if ((account.getName() == null) ||
-                (account.getPassword() == null) ||
-                (account.getAccountNumber() == null) ||
-                (account.getEmail() == null)) {
-
-            throw new RuntimeException("A conta não pode esta com nome, senha, e email e conta vazia");
-        }
 
         account.setAccountStatus(Status.ACTIVE);
-
         accountRepository.save(account);
 
     }
 
     @Transactional
-    public void updateAccount(Long id,Account account) {
+    public void updateAccount(Long id, Account account) {
 
         Optional<Account> optionalAccount = findAccountById(id);
 
@@ -77,18 +68,22 @@ public class AccountService {
             Account account = obj.get();
 
             account.setAccountStatus(Status.INACTIVE);
-            updateAccount(id,obj.get());
+            updateAccount(id, obj.get());
             accountRepository.save(account);
 
         } else {
-            throw new RuntimeException("Usuário não existe");
+            throw new AccountNoSuchElementException();
         }
     }
 
     public Account getStausAccount(Long id) {
+        try {
+            Optional<Account> account = findAccountById(id);
+            return account.get();
 
-        Optional<Account> account = findAccountById(id);
+        } catch (Exception e){
+            throw new AccountNoSuchElementException();
+        }
 
-        return account.get();
     }
 }

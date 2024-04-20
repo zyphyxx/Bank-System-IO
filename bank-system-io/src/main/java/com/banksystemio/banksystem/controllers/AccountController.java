@@ -4,20 +4,20 @@ import com.banksystemio.banksystem.dto.mapper.AccountMapper;
 import com.banksystemio.banksystem.dto.request.AccountRequest;
 import com.banksystemio.banksystem.dto.response.AccountResponse;
 import com.banksystemio.banksystem.entities.Account;
-
+import com.banksystemio.banksystem.exceptions.accountExceptions.AccountMethodArgumentNotValidException;
+import com.banksystemio.banksystem.exceptions.accountExceptions.AccountNoSuchElementException;
+import com.banksystemio.banksystem.exceptions.accountExceptions.AccountTransactionSystemException;
 import com.banksystemio.banksystem.services.AccountService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.TransactionSystemException;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.math.BigDecimal;
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @RestController
@@ -30,51 +30,62 @@ public class AccountController {
     private AccountService accountService;
 
     @GetMapping("/find/all")
-    public ResponseEntity<List<AccountResponse>> findAllAccounts(){
-
-        List<AccountResponse> tolist = AccountMapper.toList(accountService.findAllAccounts());
-
-        return ResponseEntity.ok().body(tolist);
+    public ResponseEntity<List<AccountResponse>> findAllAccounts() {
+        List<Account> allAccounts = accountService.findAllAccounts();
+        return ResponseEntity.ok().body(AccountMapper.toList(allAccounts));
     }
+
     @GetMapping("/find/{id}")
-    public ResponseEntity<AccountResponse> findAccountById (@PathVariable Long id) {
+    public ResponseEntity<AccountResponse> findAccountById(@PathVariable Long id) {
 
-            accountService.findAccountById(id);
+        try {
 
-            AccountResponse accountResponse = AccountMapper.toAccountResponse(accountService.findAccountById(id).get());
+            Optional<Account> account = accountService.findAccountById(id);
+            return ResponseEntity.ok().body(AccountMapper.toAccountResponse(account.get()));
 
-            return ResponseEntity.ok().body(accountResponse);
+        } catch (Exception e) {
+            throw new AccountNoSuchElementException();
+        }
 
     }
 
     @PostMapping("/create")
-    public ResponseEntity<AccountResponse> createAccount (@Valid @RequestBody AccountRequest request){
+    public ResponseEntity<AccountResponse> createAccount(@Valid @RequestBody AccountRequest request) {
+        try {
 
-        Account account = AccountMapper.toAccount(request);
-        accountService.createAccount(account);
+            Account account = AccountMapper.toAccount(request);
+            accountService.createAccount(account);
 
-        AccountResponse accountResponse = AccountMapper.toAccountResponse(account);
+            URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                    .path("/{id}")
+                    .buildAndExpand(account.getId())
+                    .toUri();
 
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(account.getId())
-                .toUri();
+            return ResponseEntity.created(location).body(AccountMapper.toAccountResponse(account));
 
-        return ResponseEntity.created(location).body(accountResponse);
+        } catch (Exception e) {
+            throw new AccountMethodArgumentNotValidException();
+        }
+
     }
 
     @PutMapping("/update/{id}")
     public ResponseEntity<AccountResponse> updateAccount(@Valid @PathVariable Long id, @RequestBody AccountRequest request) {
 
-        Account account = AccountMapper.toAccount(request);
-        AccountResponse accountResponse = AccountMapper.toAccountResponse(account);
+        try {
 
-        accountService.updateAccount(id,account);
+            Account account = AccountMapper.toAccount(request);
+            accountService.updateAccount(id, account);
+            return ResponseEntity.ok().body(AccountMapper.toAccountResponse(account));
 
-        return ResponseEntity.ok().body(accountResponse);
+        } catch (Exception e){
+            throw new AccountTransactionSystemException();
+        }
+
     }
+
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteAccount (@PathVariable Long id){
+    public ResponseEntity<Void> deleteAccount(@PathVariable Long id) {
 
         accountService.deleteAccount(id);
 
@@ -83,6 +94,6 @@ public class AccountController {
 
     @GetMapping("/balance/{id}")
     public Account getStausAccount(@PathVariable Long id) {
-       return accountService.getStausAccount(id);
+        return accountService.getStausAccount(id);
     }
 }
