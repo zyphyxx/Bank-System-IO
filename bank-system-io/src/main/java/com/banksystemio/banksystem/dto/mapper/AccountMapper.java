@@ -3,6 +3,7 @@ package com.banksystemio.banksystem.dto.mapper;
 import com.banksystemio.banksystem.dto.request.AccountRequest;
 import com.banksystemio.banksystem.dto.response.AccountResponse;
 import com.banksystemio.banksystem.entities.Account;
+import com.banksystemio.banksystem.enums.Status;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ public class AccountMapper {
 
         Account account = new Account();
 
-
+        account.setId(request.getId());
         account.setName(request.getName());
         account.setEmail(request.getEmail());
         account.setAccountNumber(request.getAccountNumber());

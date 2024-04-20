@@ -1,5 +1,8 @@
 package com.banksystemio.banksystem.dto.response;
 
+import com.banksystemio.banksystem.enums.Status;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,5 +23,5 @@ public class AccountResponse {
 
     private Integer accountNumber;
 
-    private Boolean accountStatus;
+    private Status accountStatus;
 }
