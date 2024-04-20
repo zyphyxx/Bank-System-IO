@@ -16,7 +16,7 @@ public class AccountMapper {
 
         Account account = new Account();
 
-
+        account.setId(request.getId());
         account.setName(request.getName());
         account.setEmail(request.getEmail());
         account.setAccountNumber(request.getAccountNumber());
@@ -33,7 +33,7 @@ public class AccountMapper {
         account.setName(response.getName());
         account.setEmail(response.getEmail());
         account.setAccountNumber(response.getAccountNumber());
-        account.setAccountStatus(Status.ACTIVE);
+        account.setAccountStatus(response.getAccountStatus());
 
         return account;
     }

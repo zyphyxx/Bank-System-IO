@@ -19,11 +19,6 @@ public class DepositService {
     @Autowired
     private AccountService accountService;
 
-
-    public List<Deposit> findAllDeposits() {
-        return depositRepository.findAll();
-    }
-
     @Transactional
     public void depositAmount(BigDecimal amount, Long id) {
 
@@ -56,4 +51,9 @@ public class DepositService {
             }
         }
     }
+
+    public List<Deposit> findAllDeposits() {
+        return depositRepository.findAll();
+    }
+
 }

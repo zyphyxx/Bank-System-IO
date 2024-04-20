@@ -17,6 +17,7 @@ import java.math.BigDecimal;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @RestController
@@ -38,40 +39,50 @@ public class AccountController {
     @GetMapping("/find/{id}")
     public ResponseEntity<AccountResponse> findAccountById (@PathVariable Long id) {
 
-        accountService.findAccountById(id);
+            accountService.findAccountById(id);
 
-        AccountResponse accountResponse = AccountMapper.toAccountResponse(accountService.findAccountById(id).get());
+            AccountResponse accountResponse = AccountMapper.toAccountResponse(accountService.findAccountById(id).get());
 
-        return ResponseEntity.ok().body(accountResponse);
+            return ResponseEntity.ok().body(accountResponse);
+
     }
 
     @PostMapping("/create")
     public ResponseEntity<AccountResponse> createAccount (@Valid @RequestBody AccountRequest request){
 
         Account account = AccountMapper.toAccount(request);
+        accountService.createAccount(account);
 
         AccountResponse accountResponse = AccountMapper.toAccountResponse(account);
 
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-                .buildAndExpand(account.getId()).toUri();
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(account.getId())
+                .toUri();
 
-        accountService.createAccount(account);
-        return ResponseEntity.created(uri).body(accountResponse);
+        return ResponseEntity.created(location).body(accountResponse);
     }
 
-    @PutMapping("/update")
-    public ResponseEntity<Void> updateAccount(@RequestBody Account account) {
-        accountService.updateAccount(account);
-        return ResponseEntity.noContent().build();
+    @PutMapping("/update/{id}")
+    public ResponseEntity<AccountResponse> updateAccount(@Valid @PathVariable Long id, @RequestBody AccountRequest request) {
+
+        Account account = AccountMapper.toAccount(request);
+        AccountResponse accountResponse = AccountMapper.toAccountResponse(account);
+
+        accountService.updateAccount(id,account);
+
+        return ResponseEntity.ok().body(accountResponse);
     }
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteAccount (@PathVariable Long id){
+
         accountService.deleteAccount(id);
+
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/balance/{id}")
-    public ResponseEntity<BigDecimal> getBalance (@PathVariable Long id) {
-        return ResponseEntity.ok().body(accountService.getBalance(id));
+    public Account getStausAccount(@PathVariable Long id) {
+       return accountService.getStausAccount(id);
     }
 }

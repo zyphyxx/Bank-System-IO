@@ -20,13 +20,13 @@ public class Transfer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
+
     private Long transferId;
 
     @DecimalMin(value = "0.00", inclusive = false, message = "O valor de transferencia deve ser maior que zero")
     private BigDecimal transferAmount;
 
-    @NotBlank
+
     private Long recipientId;
 
     @DateTimeFormat(pattern = "dd/MM/yyyy")

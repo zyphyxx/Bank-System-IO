@@ -1,6 +1,8 @@
 package com.banksystemio.banksystem.dto.request;
 
 import com.banksystemio.banksystem.enums.Status;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,6 +11,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 public class AccountRequest {
+
 
     private Long id;
 
@@ -26,7 +29,5 @@ public class AccountRequest {
     @NotBlank(message = "A senha não pode estar em branco")
     @Size(min = 6, max = 20, message = "A senha deve ter entre 6 e 20 caracteres")
     private String password;
-
-    private Status accountStatus;
 
 }

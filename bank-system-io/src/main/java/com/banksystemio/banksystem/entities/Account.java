@@ -31,13 +31,14 @@ public class Account {
     @PositiveOrZero
     private Integer accountNumber;
 
-    @DecimalMin(value = "0.00", inclusive = true, message = "O saldo deve ser maior ou igual a zero")
+    @DecimalMin(value = "0.00", message = "O saldo deve ser maior ou igual a zero")
     private BigDecimal balance;
 
     @NotBlank(message = "A senha não pode estar em branco")
     @Size(min = 6, max = 20, message = "A senha deve ter entre 6 e 20 caracteres")
     private String password;
 
+    @Enumerated(EnumType.STRING)
     private Status accountStatus;
 
     @DateTimeFormat(pattern = "dd/MM/yyyy")
@@ -54,7 +55,6 @@ public class Account {
 
     public Account () {
         this.since = LocalDate.now();
-        this.accountStatus = Status.ACTIVE;
         this.balance = BigDecimal.ZERO;
     }
 

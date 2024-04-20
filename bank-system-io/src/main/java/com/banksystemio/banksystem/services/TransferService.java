@@ -49,8 +49,8 @@ public class TransferService {
 
             try {
 
-                accountService.updateAccount(remetente.get());
-                accountService.updateAccount(destinatario.get());
+                accountService.updateAccount(transferId,remetente.get());
+                accountService.updateAccount(recipientId,destinatario.get());
 
                 Transfer transfer = new Transfer();
                 transfer.setTransferId(remetente.get().getId());

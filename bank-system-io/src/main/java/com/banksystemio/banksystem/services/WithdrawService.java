@@ -35,7 +35,7 @@ public class WithdrawService {
 
             try {
                 account.get().setBalance(balance.subtract(amount));
-                accountService.updateAccount(account.get());
+                accountService.updateAccount(id,account.get());
 
                 withdrawRequest.setAmount(amount);
                 withdrawRequest.setAccount(account.get());
