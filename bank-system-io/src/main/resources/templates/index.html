@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Conta</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="container">
+    <h2>Cadastro de Conta Bancária</h2>
+    <form id="cadastroForm">
+        <div class="form-group">
+            <label for="accountNumber">Número da Conta:</label>
+            <input type="text" id="accountNumber" name="accountNumber" required>
+        </div>
+        <div class="form-group">
+            <label for="name">Nome do Titular:</label>
+            <input type="text" id="name" name="name" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+        <div class="form-group">
+            <label for="balance">Saldo Inicial:</label>
+            <input type="number" id="balance" name="balance" required>
+        </div>
+        <div class="form-group">
+            <label for="password">Senha:</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        <button type="submit">Cadastrar Conta</button>
+    </form>
+</div>
+
+<script>
+    document.getElementById('cadastroForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Impede o envio padrão do formulário
+
+        // Obtém os valores do formulário
+        const formData = new URLSearchParams(new FormData(this));
+
+        // Envia uma requisição POST para o backend
+        fetch('http://localhost:8080/bankio/account/create', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Erro ao cadastrar conta');
+                }
+                return response.json();
+            })
+            .then(data => {
+                alert('Conta cadastrada com sucesso!');
+                // Redireciona para a página de login ou outra página
+                window.location.href = '/login.html';
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                alert('Erro ao cadastrar conta');
+            });
+    });
+</script>
+</body>
+</html>

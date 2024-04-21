@@ -4,11 +4,12 @@ import com.banksystemio.banksystem.entities.Account;
 import com.banksystemio.banksystem.enums.Status;
 import com.banksystemio.banksystem.exceptions.accountExceptions.AccountNoSuchElementException;
 import com.banksystemio.banksystem.repositories.AccountRepository;
-import jakarta.persistence.EntityNotFoundException;
-import jakarta.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
