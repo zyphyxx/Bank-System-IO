@@ -1,11 +1,12 @@
 package com.banksystemio.banksystem.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.DecimalMin;
+
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.*;
+import javax.validation.constraints.DecimalMin;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;

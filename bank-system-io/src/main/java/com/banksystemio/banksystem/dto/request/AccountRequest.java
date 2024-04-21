@@ -1,12 +1,9 @@
 package com.banksystemio.banksystem.dto.request;
 
-import com.banksystemio.banksystem.enums.Status;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.validation.constraints.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+
+
+import javax.validation.constraints.*;
 
 
 @Data

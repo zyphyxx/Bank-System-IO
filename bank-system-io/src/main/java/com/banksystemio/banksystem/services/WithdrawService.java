@@ -3,10 +3,11 @@ package com.banksystemio.banksystem.services;
 import com.banksystemio.banksystem.entities.Account;
 import com.banksystemio.banksystem.entities.Withdraw;
 import com.banksystemio.banksystem.repositories.WithdrawRepository;
-import jakarta.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;

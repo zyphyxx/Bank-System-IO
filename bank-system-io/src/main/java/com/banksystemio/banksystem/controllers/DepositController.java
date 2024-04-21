@@ -6,6 +6,7 @@ import com.banksystemio.banksystem.dto.response.DepositResponse;
 import com.banksystemio.banksystem.entities.Account;
 import com.banksystemio.banksystem.entities.Deposit;
 import com.banksystemio.banksystem.services.DepositService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +24,7 @@ public class DepositController {
     private DepositService depositService;
 
     @PostMapping("/deposit")
+    @Operation(summary = "Metodo usado para fazer depositos", tags = "Bank-IO/Operation/Deposit")
     public ResponseEntity<DepositResponse> depositAmount (@RequestBody DepositRequest request){
 
         DepositResponse response = DepositMapper.toResponse(request);
@@ -36,6 +38,7 @@ public class DepositController {
     }
 
     @GetMapping("/deposit/all")
+    @Operation(summary = "Metodo usado para retornar todos depositos", tags = "Bank-IO/Operation/Deposit")
     public List<Deposit> findAllDeposits () {
         return depositService.findAllDeposits();
     }

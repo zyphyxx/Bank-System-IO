@@ -1,11 +1,12 @@
 package com.banksystemio.banksystem.entities;
 
 import com.banksystemio.banksystem.enums.Status;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
+
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
