@@ -31,14 +31,18 @@ public class AccountController {
     private AccountService accountService;
 
     @GetMapping("/find/all")
-    @Operation(summary = "Metodo que retorna todas as contas", tags = "Bank-IO/Account")
+    @Operation(summary = "Retorna todas as contas",
+            description = "Este método retorna todas as contas existentes no sistema.",
+            tags = "Bank-IO/Account")
     public ResponseEntity<List<AccountResponse>> findAllAccounts() {
         List<Account> allAccounts = accountService.findAllAccounts();
         return ResponseEntity.ok().body(AccountMapper.toList(allAccounts));
     }
 
     @GetMapping("/find/{id}")
-    @Operation(summary = "Metodo que retorna uma conta por ID", tags = "Bank-IO/Account")
+    @Operation(summary = "Retorna uma conta por ID",
+            description = "Este método retorna os detalhes de uma conta específica com base no ID fornecido.",
+            tags = "Bank-IO/Account")
     public ResponseEntity<AccountResponse> findAccountById(@PathVariable Long id) {
 
         try {
@@ -53,7 +57,9 @@ public class AccountController {
     }
 
     @PostMapping(value = "/create")
-    @Operation(summary = "Metodo que cria uma Conta de Usuario", tags = "Bank-IO/Account")
+    @Operation(summary = "Cria uma conta de usuário",
+            description = "Este método cria uma nova conta de usuário com base nos detalhes fornecidos.",
+            tags = "Bank-IO/Account")
     public ResponseEntity<AccountResponse> createAccount(@Valid @RequestBody AccountRequest request) {
         try {
 
@@ -74,7 +80,9 @@ public class AccountController {
     }
 
     @PutMapping("/update/{id}")
-    @Operation(summary = "Metodo que atualizado os dados do usuario passando uma ID", tags = "Bank-IO/Account")
+    @Operation(summary = "Atualiza os dados do usuário por ID",
+            description = "Este método atualiza os dados de uma conta de usuário existente com base no ID fornecido.",
+            tags = "Bank-IO/Account")
     public ResponseEntity<AccountResponse> updateAccount(@Valid @PathVariable Long id, @RequestBody AccountRequest request) {
 
         try {
@@ -90,7 +98,9 @@ public class AccountController {
     }
 
     @DeleteMapping("/delete/{id}")
-    @Operation(summary = "Metodo que desativa a conta de usuario, só que os dados permanecem salvos", tags = "Bank-IO/Account")
+    @Operation(summary = "Desativa a conta de usuário",
+            description = "Este método desativa a conta de um usuário, mantendo os dados salvos no sistema.",
+            tags = "Bank-IO/Account")
     public ResponseEntity<Void> deleteAccount(@PathVariable Long id) {
 
         accountService.deleteAccount(id);
@@ -99,7 +109,9 @@ public class AccountController {
     }
 
     @GetMapping("/balance/{id}")
-    @Operation(summary = "Metodo que retorna todos os dados da conta", tags = "Bank-IO/Account")
+    @Operation(summary = "Retorna todos os dados da conta",
+            description = "Este método retorna todos os detalhes e informações associadas a uma conta específica.",
+            tags = "Bank-IO/Account")
     public Account getStausAccount(@PathVariable Long id) {
         return accountService.getStausAccount(id);
     }

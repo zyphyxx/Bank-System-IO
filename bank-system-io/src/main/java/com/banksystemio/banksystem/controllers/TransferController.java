@@ -21,7 +21,9 @@ public class TransferController {
     private TransferService transferService;
 
     @PutMapping("/transfer")
-    @Operation(summary = "Metodo usado para fazer transferencias, Passando o ID da conta, o valor a transferir, ID de quem vai receber, e a senha do usuario", tags = "Bank-IO/Operation/Transfer")
+    @Operation(summary = "Realiza uma transferência",
+            description = "Este método é usado para fazer transferências entre contas bancárias. Requer o ID da conta de origem, o valor a transferir, o ID da conta de destino e a senha do usuário.",
+            tags = "Bank-IO/Operation/Transfer")
     public ResponseEntity<TransferResponse> transferAmount(@RequestBody TransferRequest request) {
 
         TransferResponse response = TransferMapper.toResponse(request);

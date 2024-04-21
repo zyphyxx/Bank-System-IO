@@ -22,7 +22,9 @@ public class WithdrawController {
     private WithdrawService withdrawService;
 
     @PutMapping("/withdraw")
-    @Operation(summary = "Metodo usado para fazer saques passando o ID e o Valor", tags = "Bank-IO/Operation/Withdraw")
+    @Operation(summary = "Realiza um saque",
+            description = "Este método é usado para fazer saques de uma conta bancária. Requer o ID da conta e o valor a ser sacado.",
+            tags = "Bank-IO/Operation/Withdraw")
     public ResponseEntity<WithdrawResponse> withdrawAmount(@RequestBody WithdrawRequest request) {
         WithdrawResponse response = WithdrawMapper.toResponse(request);
 

@@ -24,7 +24,9 @@ public class DepositController {
     private DepositService depositService;
 
     @PostMapping("/deposit")
-    @Operation(summary = "Metodo usado para fazer depositos", tags = "Bank-IO/Operation/Deposit")
+    @Operation(summary = "Realiza um depósito",
+            description = "Este método é usado para fazer depósitos em uma conta bancária.",
+            tags = "Bank-IO/Operation/Deposit")
     public ResponseEntity<DepositResponse> depositAmount (@RequestBody DepositRequest request){
 
         DepositResponse response = DepositMapper.toResponse(request);
