@@ -10,9 +10,10 @@ import org.springframework.context.annotation.Configuration;
 public class SwaggerConfig {
 
     @Bean
-    public OpenAPI customAPI () {
-        return new OpenAPI().info(new Info().title("Bank-IO API").version("1.0.0")
-                .description("O Bank IO é um aplicativo simulador de Banco, que permite aos usuários realizar operações bancárias básicas. Como Criar contas, fazer depositos" +
-                        "Saques, Transferencias, Historico de transações "));
+    public OpenAPI customAPI() {
+        return new OpenAPI().info(new Info().title("Bank-IO API")
+                .version("1.0.0")
+                .description("A API do Bank-IO é um aplicativo simulador de banco que permite aos usuários realizar operações bancárias básicas, incluindo a criação de contas, depósitos, saques, transferências e acesso ao histórico de transações."));
     }
+
 }
